@@ -1,0 +1,5 @@
+my_xoops.zip
+db_data/
+logs/
+site/
+.env
