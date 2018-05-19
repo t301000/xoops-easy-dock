@@ -28,6 +28,11 @@
     header / -Server
 }
 
+# 將 http 連線轉向 https
+#:80 {
+#    redir https://www.example.com{uri}
+#}
+
 #laradock1.demo:80 {
 #    root /var/www/public
     # Create a Webhook in git.
