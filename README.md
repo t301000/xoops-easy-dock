@@ -72,7 +72,7 @@ MYSQL_ENTRYPOINT_INITDB=./mysql/docker-entrypoint-initdb.d
 
 ### 建置容器映像檔
 
-第一次需要先建置容器映像檔，所需時間視網路連線狀況定。
+第一次需要先建置容器映像檔，所需時間視網路連線狀況而定。
 ```bash
 docker-compose build caddy
 docker-compose build mysql
