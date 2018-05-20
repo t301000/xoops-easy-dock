@@ -67,8 +67,6 @@ services:
       volumes:
         - ${DATA_PATH_HOST}/mysql:/var/lib/mysql
         - ${MYSQL_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
-      ports:
-        - "${MYSQL_PORT}:3306"
       restart: unless-stopped
       networks:
         - backend
