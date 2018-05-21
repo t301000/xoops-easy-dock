@@ -21,7 +21,7 @@
 ### 下載並解壓縮
 
 ```bash
-wget https://github.com/t301000/laravel-stack/archive/master.zip
+wget https://github.com/t301000/xoops-easy-dock/archive/master.zip
 unzip master
 ```
 解壓縮之後會有一個名稱為 xoops-easy-dock 之目錄。
