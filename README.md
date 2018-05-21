@@ -58,6 +58,7 @@ MYSQL_ENTRYPOINT_INITDB=./mysql/docker-entrypoint-initdb.d
 - MYSQL_DATABASE：欲使用的資料庫名稱，預設為 default
 - MYSQL_USER：欲使用的資料庫帳號，預設為 default
 - MYSQL_PASSWORD：欲使用的資料庫密碼，預設為 secret
+- MYSQL_ROOT_PASSWORD：設定 root 密碼，預設為 root
 
 ### 進行容器啟動前之前置作業
 
