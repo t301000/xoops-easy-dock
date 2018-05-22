@@ -18,7 +18,46 @@
 
 ## 安裝步驟
 
-### 下載並解壓縮
+### 安裝 Docker
+
+依照 [https://get\.docker\.com](https://get.docker.com/) 的指示，依序輸入兩行指令。
+```bash
+curl -fsSL get.docker.com -o get-docker.sh
+sh get-docker.sh
+```
+
+完成後複製畫面上的指令執行。
+```bash
+# 此為範例
+sudo usermod -aG docker YourAccount
+```
+
+登出再重新登入，執行以下指令，能看到 Client 與 Server 版本即安裝完成。
+```bash
+# 正常應能看到 Client 與 Server 的版本
+docker version
+```
+
+### 安裝 docker-compose
+
+先 sudo 成 root
+```bash
+sudo -s
+```
+
+到 [Releases · docker/compose · GitHub](https://github.com/docker/compose/releases) 複製執行以下指令。
+```bash
+# 範例，版本號可能不一樣
+curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+```
+
+查看版本
+```bash
+docker-compose version
+```
+
+### 下載 xoops-easy-dock 並解壓縮
 
 ```bash
 wget https://github.com/t301000/xoops-easy-dock/archive/master.zip
