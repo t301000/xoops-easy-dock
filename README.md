@@ -106,7 +106,7 @@ MYSQL_ENTRYPOINT_INITDB=./mysql/docker-entrypoint-initdb.d
 ```
 
 此步驟會下載 XOOPS 輕鬆架，建立目錄並變更權限：
-- db_data：此目錄下的 mysql 目錄存放資料庫檔案
+- db_data：此目錄會存放 ssl 證書相關檔案與資料庫檔案（ mysql 目錄）
 - logs：此目錄下的 caddy 目錄存放 caddy 之 log 檔
 - site：存放 XOOPS 程式
 
@@ -125,6 +125,8 @@ docker-compose build php-fpm
 ```bash
 docker-compose build
 ```
+
+若 .env 中資料庫設定有變更，則 mysql 的映像檔要重新建置。
 
 ### SSL 憑證
 
@@ -174,3 +176,14 @@ docker-compose up -d
 - 資料庫名稱： .env 中 MYSQL_DATABASE 之設定值，預設為 default
 - 資料庫帳號： .env 中 MYSQL_USER 之設定值，預設為 default
 - 資料庫密碼： .env 中 MYSQL_PASSWORD 之設定值，預設為 secret
+
+### 資料庫管理
+
+XOOPS 輕鬆架內建 [Adminer](https://www.adminer.org/) 管理資料庫，網址為：
+
+http(s)://YOUR_SERVER/modules/tad_adm/pma.php
+
+- 伺服器：mysql
+- 帳號： .env 中 MYSQL_USER 之設定值，預設為 default
+- 密碼： .env 中 MYSQL_PASSWORD 之設定值，預設為 secret
+- 資料庫： .env 中 MYSQL_DATABASE 之設定值，預設為 default，可不輸入
