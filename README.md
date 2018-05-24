@@ -61,15 +61,15 @@ docker-compose version
 
 ```bash
 wget https://github.com/t301000/xoops-easy-dock/archive/master.zip
-unzip master
+unzip master.zip
 ```
-解壓縮之後會有一個名稱為 xoops-easy-dock 之目錄。
+解壓縮之後會有一個名稱為 xoops-easy-dock-master 之目錄。
 
 ### 重命名目錄
 
 依需要將 xoops-easy-dock 重命名，如 xoops，此步驟可不做。
 ```bash
-mv xoops-easy-dock xoops
+mv xoops-easy-dock-master xoops
 ```
 
 ### 進行設定
