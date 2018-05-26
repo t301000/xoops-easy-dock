@@ -192,3 +192,16 @@ http(s)://YOUR_SERVER/modules/tad_adm/pma.php
 ```bash
 docker-compose -f docker-compose-prod.yml up -d
 ```
+
+或者是修改 .env 之設定
+```bash
+COMPOSE_FILE=docker-compose.yml
+```
+改成
+```bash
+COMPOSE_FILE=docker-compose-prod.yml
+```
+啟動容器之指令不變
+```bash
+docker-compose up -d
+```
