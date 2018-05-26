@@ -1,0 +1,57 @@
+version: '3'
+
+networks:
+  frontend:
+    driver: ${NETWORKS_DRIVER}
+  backend:
+    driver: ${NETWORKS_DRIVER}
+
+services:
+
+### PHP-FPM ##############################################
+    php-fpm:
+      image: t301000/xoops.easy.dock.php-fpm:latest
+      volumes:
+        - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+      expose:
+        - "9000"
+      extra_hosts:
+        - "dockerhost:${DOCKER_HOST_IP}"
+      restart: unless-stopped
+      networks:
+        - backend
+
+### MySQL ################################################
+    mysql:
+      image: t301000/xoops.easy.dock.mysql:latest
+      environment:
+        - MYSQL_DATABASE=${MYSQL_DATABASE}
+        - MYSQL_USER=${MYSQL_USER}
+        - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+        - TZ=${WORKSPACE_TIMEZONE}
+      volumes:
+        - ${DATA_PATH_HOST}/mysql:/var/lib/mysql
+        - ${MYSQL_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
+      restart: unless-stopped
+      networks:
+        - backend
+
+### Caddy Server #########################################
+    caddy:
+      image: t301000/xoops.easy.dock.caddy:latest
+      volumes:
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+        - ${CADDY_CUSTOM_CADDYFILE}:/etc/Caddyfile
+        - ${CADDY_HOST_LOG_PATH}:/var/log/caddy
+        - ${DATA_PATH_HOST}:/root/.caddy
+      ports:
+        - "${CADDY_HOST_HTTP_PORT}:80"
+        - "${CADDY_HOST_HTTPS_PORT}:443"
+      restart: unless-stopped
+      depends_on:
+        - php-fpm
+      networks:
+        - frontend
+        - backend

@@ -185,3 +185,10 @@ http(s)://YOUR_SERVER/modules/tad_adm/pma.php
 - 帳號： .env 中 MYSQL_USER 之設定值，預設為 default
 - 密碼： .env 中 MYSQL_PASSWORD 之設定值，預設為 secret
 - 資料庫： .env 中 MYSQL_DATABASE 之設定值，預設為 default，可不輸入
+
+## 預先建置好的映像檔
+
+[t301000 \- Docker Hub](https://hub.docker.com/u/t301000/) 有已經建置好的映像檔，可以直接使用，改以下面的指令啟動容器。
+```bash
+docker-compose -f docker-compose-prod.yml up -d
+```
