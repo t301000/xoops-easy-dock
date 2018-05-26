@@ -126,8 +126,6 @@ docker-compose build php-fpm
 docker-compose build
 ```
 
-若 .env 中資料庫設定有變更，則 mysql 的映像檔要重新建置。
-
 ### SSL 憑證
 
 請務必先設定好 DNS，編輯 caddy 目錄下的 Caddyfile，找到：
