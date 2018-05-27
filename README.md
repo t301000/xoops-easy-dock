@@ -18,7 +18,7 @@
 
 ## 安裝步驟
 
-### 安裝 Docker
+### 1. 安裝 Docker
 
 依照 [https://get\.docker\.com](https://get.docker.com/) 的指示，依序輸入兩行指令。
 ```bash
@@ -38,7 +38,7 @@ sudo usermod -aG docker YourAccount
 docker version
 ```
 
-### 安裝 docker-compose
+### 2. 安裝 docker-compose
 
 先 sudo 成 root
 ```bash
@@ -57,7 +57,7 @@ chmod +x /usr/local/bin/docker-compose
 docker-compose version
 ```
 
-### 下載 xoops-easy-dock 並解壓縮
+### 3. 下載 xoops-easy-dock 並解壓縮
 
 ```bash
 wget https://github.com/t301000/xoops-easy-dock/archive/master.zip
@@ -65,14 +65,14 @@ unzip master.zip
 ```
 解壓縮之後會有一個名稱為 xoops-easy-dock-master 之目錄。
 
-### 重命名目錄
+### 4. 重命名目錄
 
 依需要將 xoops-easy-dock 重命名，如 xoops，此步驟可不做。
 ```bash
 mv xoops-easy-dock-master xoops
 ```
 
-### 進行設定
+### 5. 進行設定
 
 ```bash
 cd xoops
@@ -99,7 +99,7 @@ MYSQL_ENTRYPOINT_INITDB=./mysql/docker-entrypoint-initdb.d
 - MYSQL_PASSWORD：欲使用的資料庫密碼，預設為 secret
 - MYSQL_ROOT_PASSWORD：設定 root 密碼，預設為 root
 
-### 進行容器啟動前之前置作業
+### 6. 進行容器啟動前之前置作業
 
 ```bash
 ./prepare.sh
@@ -110,7 +110,7 @@ MYSQL_ENTRYPOINT_INITDB=./mysql/docker-entrypoint-initdb.d
 - logs：此目錄下的 caddy 目錄存放 caddy 之 log 檔
 - site：存放 XOOPS 程式
 
-### 建置容器映像檔
+### 7. 建置容器映像檔
 
 第一次需要先建置容器映像檔，所需時間視網路連線狀況而定。
 ```bash
@@ -126,7 +126,9 @@ docker-compose build php-fpm
 docker-compose build
 ```
 
-### SSL 憑證
+因為建置映像檔所需時間較長，如果沒有特別需求，可以直接使用[預先建置好的映像檔](#使用預先建置好的映像檔)以節省時間。
+
+### 8. SSL 憑證
 
 請務必先設定好 DNS，編輯 caddy 目錄下的 Caddyfile，找到：
 ```
@@ -161,13 +163,13 @@ tls user@gmail.com
 }
 ```
 
-### 啟動容器
+### 9. 啟動容器
 
 ```bash
 docker-compose up -d
 ```
 
-### XOOPS 輕鬆架安裝
+### 10. XOOPS 輕鬆架安裝
 
 開啟瀏覽器進行 XOOPS 輕鬆架安裝
 - 資料庫位址： mysql
@@ -175,7 +177,7 @@ docker-compose up -d
 - 資料庫帳號： .env 中 MYSQL_USER 之設定值，預設為 default
 - 資料庫密碼： .env 中 MYSQL_PASSWORD 之設定值，預設為 secret
 
-### 資料庫管理
+## 資料庫管理
 
 XOOPS 輕鬆架內建 [Adminer](https://www.adminer.org/) 管理資料庫，網址為：
 
@@ -186,20 +188,36 @@ http(s)://YOUR_SERVER/modules/tad_adm/pma.php
 - 密碼： .env 中 MYSQL_PASSWORD 之設定值，預設為 secret
 - 資料庫： .env 中 MYSQL_DATABASE 之設定值，預設為 default，可不輸入
 
-## 預先建置好的映像檔
+## 使用預先建置好的映像檔
 
-[t301000 \- Docker Hub](https://hub.docker.com/u/t301000/) 有已經建置好的映像檔，可以直接使用，改以下面的指令啟動容器。
+[t301000 \- Docker Hub](https://hub.docker.com/u/t301000/) 有已經建置好的映像檔，可以直接使用。
+### 方法 1
+改以下面的指令啟動容器。
 ```bash
 docker-compose -f docker-compose-prod.yml up -d
 ```
 
-或者是修改 .env 之設定
+### 方法 2
+修改 .env 之設定
 ```bash
 COMPOSE_FILE=docker-compose.yml
 ```
 改成
 ```bash
 COMPOSE_FILE=docker-compose-prod.yml
+```
+啟動容器之指令不變
+```bash
+docker-compose up -d
+```
+
+### 方法 3
+以 docker-compose-prod.yml 取代 docker-compose.yml
+```bash
+# 先備份 docker-compose.yml
+mv docker-compose.yml docker-compose.yml.bak
+# 複製 docker-compose-prod.yml 為 docker-compose.yml
+cp docker-compose-prod.yml docker-compose.yml
 ```
 啟動容器之指令不變
 ```bash
