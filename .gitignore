@@ -3,3 +3,4 @@ db_data/
 logs/
 site/
 .env
+.idea/
