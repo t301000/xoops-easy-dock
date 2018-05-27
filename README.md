@@ -130,7 +130,10 @@ docker-compose build
 
 ### 8. SSL 憑證
 
-請務必先設定好 DNS，編輯 caddy 目錄下的 Caddyfile，找到：
+請務必先設定好 DNS，編輯 caddy 目錄下的 Caddyfile。
+
+#### 8.1
+找到：
 ```
 0.0.0.0:80 {
     ...省略
@@ -138,7 +141,8 @@ docker-compose build
 ```
 將 0.0.0.0:80 改為如： www.example.com
 
-在上一段中找到：
+#### 8.2
+這個步驟是啟動 https 的關鍵，在上一段中找到：
 ```
 #tls self_signed
 ```
@@ -149,6 +153,14 @@ tls user@gmail.com
 
 以上設定即可自動申請憑證與自動更新
 
+因為 [Let's Encrypt](https://letsencrypt.org/) 的憑證申請有流量限制（[參考文章](http://cctg.blogspot.tw/2016/08/lets-encrypt-ssl-key.html)，[官方文件 Rate Limits](https://letsencrypt.org/docs/rate-limits/)），練習時為了避免同一個 FQDN 超過限制，造成正式上線時無法即時申請到憑證，可以設定如下(記得 email 換成正確的)，此設定下 https 連線會標示為不安全：
+```
+tls user@gmail.com {
+    ca https://acme-staging-v02.api.letsencrypt.org/directory
+}
+```
+
+#### 8.3
 若想要將以 server ip 連線之 http 連線轉至 https，則繼續進行以下設定。
 找到：
 ```
