@@ -13,6 +13,7 @@
 ## 系統需求
 
 - Debian based OS，建議使用 Ubuntu Server
+- CentOS 7
 - docker
 - [docker-compose](https://github.com/docker/compose)
 
@@ -110,29 +111,11 @@ MYSQL_ENTRYPOINT_INITDB=./mysql/docker-entrypoint-initdb.d
 - logs：此目錄下的 caddy 目錄存放 caddy 之 log 檔
 - site：存放 XOOPS 程式
 
-### 7. 建置容器映像檔
-
-第一次需要先建置容器映像檔，所需時間視網路連線狀況而定。
-```bash
-docker-compose build caddy
-docker-compose build mysql
-docker-compose build php-fpm
-```
-
-在建置映像檔時若遇到建置失敗，請重新建置，尤其是 php-fpm 。
-
-若想要一次建置全部映像檔，可執行：
-```bash
-docker-compose build
-```
-
-因為建置映像檔所需時間較長，如果沒有特別需求，可以直接使用[預先建置好的映像檔](#使用預先建置好的映像檔)以節省時間。
-
-### 8. SSL 憑證
+### 7. SSL 憑證
 
 請務必先設定好 DNS，編輯 caddy 目錄下的 Caddyfile。
 
-#### 8.1
+#### 7.1
 找到：
 ```
 0.0.0.0:80 {
@@ -141,7 +124,7 @@ docker-compose build
 ```
 將 0.0.0.0:80 改為如： www.example.com
 
-#### 8.2
+#### 7.2
 這個步驟是啟動 https 的關鍵，在上一段中找到：
 ```
 #tls self_signed
@@ -151,16 +134,16 @@ docker-compose build
 tls user@gmail.com
 ```
 
-以上設定即可自動申請憑證與自動更新
+以上設定即可自動申請憑證與自動更新，正式上線前才做。
 
-因為 [Let's Encrypt](https://letsencrypt.org/) 的憑證申請有流量限制（[參考文章](http://cctg.blogspot.tw/2016/08/lets-encrypt-ssl-key.html)，[官方文件 Rate Limits](https://letsencrypt.org/docs/rate-limits/)），練習時為了避免同一個 FQDN 超過限制，造成正式上線時無法即時申請到憑證，可以設定如下(記得 email 換成正確的)，此設定下 https 連線會標示為不安全：
+因為 [Let's Encrypt](https://letsencrypt.org/) 的憑證申請有流量限制（[參考文章](http://cctg.blogspot.tw/2016/08/lets-encrypt-ssl-key.html)，[官方文件 Rate Limits](https://letsencrypt.org/docs/rate-limits/)），練習時為了避免同一個 FQDN 超過限制，造成正式上線時無法即時申請到憑證，可以啟用如下設定(記得 email 換成正確的，正式上線前記得註解掉)，此設定下 https 連線會標示為不安全：
 ```
 tls user@gmail.com {
     ca https://acme-staging-v02.api.letsencrypt.org/directory
 }
 ```
 
-#### 8.3
+#### 7.3
 若想要將以 server ip 連線之 http 連線轉至 https，則繼續進行以下設定。
 找到：
 ```
@@ -175,13 +158,13 @@ tls user@gmail.com {
 }
 ```
 
-### 9. 啟動容器
+### 8. 啟動容器
 
 ```bash
 docker-compose up -d
 ```
 
-### 10. XOOPS 輕鬆架安裝
+### 9. XOOPS 輕鬆架安裝
 
 開啟瀏覽器進行 XOOPS 輕鬆架安裝
 - 資料庫位址： mysql
@@ -199,39 +182,3 @@ http(s)://YOUR_SERVER/modules/tad_adm/pma.php
 - 帳號： .env 中 MYSQL_USER 之設定值，預設為 default
 - 密碼： .env 中 MYSQL_PASSWORD 之設定值，預設為 secret
 - 資料庫： .env 中 MYSQL_DATABASE 之設定值，預設為 default，可不輸入
-
-## 使用預先建置好的映像檔
-
-[t301000 \- Docker Hub](https://hub.docker.com/u/t301000/) 有已經建置好的映像檔，可以直接使用。
-### 方法 1
-改以下面的指令啟動容器。
-```bash
-docker-compose -f docker-compose-prod.yml up -d
-```
-
-### 方法 2
-修改 .env 之設定
-```bash
-COMPOSE_FILE=docker-compose.yml
-```
-改成
-```bash
-COMPOSE_FILE=docker-compose-prod.yml
-```
-啟動容器之指令不變
-```bash
-docker-compose up -d
-```
-
-### 方法 3
-以 docker-compose-prod.yml 取代 docker-compose.yml
-```bash
-# 先備份 docker-compose.yml
-mv docker-compose.yml docker-compose.yml.bak
-# 複製 docker-compose-prod.yml 為 docker-compose.yml
-cp docker-compose-prod.yml docker-compose.yml
-```
-啟動容器之指令不變
-```bash
-docker-compose up -d
-```
