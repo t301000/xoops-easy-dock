@@ -14,51 +14,13 @@
 
 - Debian based OS，建議使用 Ubuntu Server
 - CentOS 7
-- docker
-- [docker-compose](https://github.com/docker/compose)
+- curl
+- wget
+- unzip
 
 ## 安裝步驟
 
-### 1. 安裝 Docker
-
-依照 [https://get\.docker\.com](https://get.docker.com/) 的指示，依序輸入兩行指令。
-```bash
-curl -fsSL get.docker.com -o get-docker.sh
-sh get-docker.sh
-```
-
-完成後複製畫面上的指令執行。
-```bash
-# 此為範例
-sudo usermod -aG docker YourAccount
-```
-
-登出再重新登入，執行以下指令，能看到 Client 與 Server 版本即安裝完成。
-```bash
-# 正常應能看到 Client 與 Server 的版本
-docker version
-```
-
-### 2. 安裝 docker-compose
-
-先 sudo 成 root
-```bash
-sudo -s
-```
-
-到 [Releases · docker/compose · GitHub](https://github.com/docker/compose/releases) 複製執行以下指令。
-```bash
-# 範例，版本號可能不一樣
-curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
-chmod +x /usr/local/bin/docker-compose
-```
-
-查看版本
-```bash
-docker-compose version
-```
-
-### 3. 下載 xoops-easy-dock 並解壓縮
+### 1. 下載 xoops-easy-dock 並解壓縮
 
 ```bash
 wget https://github.com/t301000/xoops-easy-dock/archive/master.zip
@@ -66,20 +28,49 @@ unzip master.zip
 ```
 解壓縮之後會有一個名稱為 xoops-easy-dock-master 之目錄。
 
-### 4. 重命名目錄
+### 2. 重命名目錄
 
-依需要將 xoops-easy-dock 重命名，如 xoops，此步驟可不做。
+依需要將 xoops-easy-dock-master 目錄重命名，如 xoops ，此步驟可不做。
 ```bash
 mv xoops-easy-dock-master xoops
 ```
 
-### 5. 進行設定
+### 3. 安裝 Docker 與 docker-compose
 
 ```bash
 cd xoops
+./install-docker.sh
+```
+
+登出再重新登入，執行以下指令，能看到 Client 與 Server 版本則 Docker 安裝完成。
+```bash
+docker version
+```
+
+執行以下指令，查看 docker-compose [版本](https://github.com/docker/compose/releases)。
+```bash
+docker-compose version
+```
+
+### 4. 進行容器啟動前之前置作業
+
+```bash
+./prepare.sh
+```
+
+此步驟會下載 XOOPS 輕鬆架，建立目錄並變更權限：
+- db_data：此目錄會存放 ssl 證書相關檔案與資料庫檔案（ mysql 目錄）
+- logs：此目錄下的 caddy 目錄存放 caddy 之 log 檔
+- site：存放 XOOPS 程式
+
+### 5. 進行設定
+
+環境設定檔為 .env ，若不存在則執行：
+```bash
 cp env-example .env
 ```
-.env 是設定檔，一般只須設定資料庫資料。
+
+.env 一般只須設定資料庫資料。
 
 找到以下區塊：
 ```
@@ -100,22 +91,15 @@ MYSQL_ENTRYPOINT_INITDB=./mysql/docker-entrypoint-initdb.d
 - MYSQL_PASSWORD：欲使用的資料庫密碼，預設為 secret
 - MYSQL_ROOT_PASSWORD：設定 root 密碼，預設為 root
 
-### 6. 進行容器啟動前之前置作業
-
-```bash
-./prepare.sh
-```
-
-此步驟會下載 XOOPS 輕鬆架，建立目錄並變更權限：
-- db_data：此目錄會存放 ssl 證書相關檔案與資料庫檔案（ mysql 目錄）
-- logs：此目錄下的 caddy 目錄存放 caddy 之 log 檔
-- site：存放 XOOPS 程式
-
-### 7. SSL 憑證
+### 6. 網站 SSL 憑證
 
 請務必先設定好 DNS，編輯 caddy 目錄下的 Caddyfile。
 
-#### 7.1
+```bash
+vim caddy/Caddyfile
+```
+
+#### 6.1
 找到：
 ```
 0.0.0.0:80 {
@@ -124,7 +108,7 @@ MYSQL_ENTRYPOINT_INITDB=./mysql/docker-entrypoint-initdb.d
 ```
 將 0.0.0.0:80 改為如： www.example.com
 
-#### 7.2
+#### 6.2
 這個步驟是啟動 https 的關鍵，在上一段中找到：
 ```
 #tls self_signed
@@ -143,7 +127,7 @@ tls user@gmail.com {
 }
 ```
 
-#### 7.3
+#### 6.3
 若想要將以 server ip 連線之 http 連線轉至 https，則繼續進行以下設定。
 找到：
 ```
@@ -158,13 +142,13 @@ tls user@gmail.com {
 }
 ```
 
-### 8. 啟動容器
+### 7. 啟動容器
 
 ```bash
 docker-compose up -d
 ```
 
-### 9. XOOPS 輕鬆架安裝
+### 8. XOOPS 輕鬆架安裝
 
 開啟瀏覽器進行 XOOPS 輕鬆架安裝
 - 資料庫位址： mysql
