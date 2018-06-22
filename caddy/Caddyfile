@@ -19,6 +19,12 @@
     # Change the first list to listen on port 443 when enabling TLS
     #tls self_signed
 
+    # 練習啟用 ssl 時請將以下 3 行取消註解並設定 email ，上線前再將其註解
+    # 此模式下請以無痕模式開啟網頁
+    #tls user@gmail.com {
+    #    ca https://acme-staging-v02.api.letsencrypt.org/directory
+    #}
+
     # To use Lets encrpt tls with a DNS provider uncomment these
     # lines and change the provider as required
     #tls {
