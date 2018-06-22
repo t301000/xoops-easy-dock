@@ -1,9 +1,19 @@
 #!/bin/bash
-if [ ! -f /usr/bin/unzip ] ; then
-    printf "***** 安裝 unzip *****\n\n"
-    sudo apt install -y unzip
+
+lsb_dist=""
+# Every system that we officially support has /etc/os-release
+if [ -r /etc/os-release ]; then
+    lsb_dist="$(. /etc/os-release && echo "$ID")"
 fi
 
+if [ ! -f /usr/bin/unzip ] ; then
+    printf "***** 安裝 unzip *****\n\n"
+    if [ "$lsb_dist" == "centos" ]; then
+        sudo yum install -y unzip wget vim
+    else
+        sudo apt install -y unzip
+    fi
+fi
 
 if [ ! -f my_xoops.zip ] ; then
     printf "***** 開始下載最新版安裝檔 *****\n\n"
@@ -35,7 +45,15 @@ if [ ! -d logs ] ; then
     chmod 777 -Rf logs
 fi
 
+if [ ! -f .env ] ; then
+    printf "***** 複製 env-example 為 .env *****\n\n"
+    cp env-example .env
+fi
+
 printf "***** 完成 *****\n\n"
+
+printf "請編輯 .env 中資料庫設定\n\n"
+printf "請編輯 caddy/Caddyfile 中網站設定\n\n"
 
 printf "執行以下指令啟動 container：\n"
 printf "      docker-compose up -d\n\n"
