@@ -5,16 +5,11 @@ _FQDN_ {
         index index.php
     }
 
-    # To handle .html extensions with laravel change ext to
-    # ext / .html
-
-    #rewrite {
-    #    to {path} {path}/ /index.php?{query}
-    #}
     gzip
     browse
     log /var/log/caddy/access.log
     errors /var/log/caddy/error.log
+    
     # Uncomment to enable TLS (HTTPS)
     # Change the first list to listen on port 443 when enabling TLS
     #tls self_signed
@@ -30,12 +25,6 @@ _FQDN_ {
     _TLS_TEST_1_
     _TLS_TEST_2_
     _TLS_TEST_3_
-
-    # To use Lets encrpt tls with a DNS provider uncomment these
-    # lines and change the provider as required
-    #tls {
-    #  dns cloudflare
-    #}
 
     header / {
         # 隱藏 server 資訊
@@ -68,21 +57,3 @@ _FORCE_HTTPS_1_
 _FORCE_HTTPS_2_
 _FORCE_HTTPS_3_
 
-#laradock1.demo:80 {
-#    root /var/www/public
-    # Create a Webhook in git.
-    #git {
-	#repo https://github.com/xxx/xxx
-    #    path /home/xxx
-    #    #interval 60
-    #    hook  webhook laradock
-    #    hook_type   generic
-    #}
-
-#}
-
-#laradock2.demo:80 {
-    # Create a Proxy and cors.
-    #proxy domain.com
-	#cors
-#}
