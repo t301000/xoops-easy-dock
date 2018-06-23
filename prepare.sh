@@ -45,15 +45,12 @@ if [ ! -d logs ] ; then
     chmod 777 -Rf logs
 fi
 
-if [ ! -f .env ] ; then
-    printf "***** 複製 env-example 為 .env *****\n\n"
-    cp env-example .env
-fi
-
 printf "***** 完成 *****\n\n"
 
-printf "請編輯 .env 中資料庫設定\n\n"
-printf "請編輯 caddy/Caddyfile 中網站設定\n\n"
+# echo "設定 .env 執行："
+# printf "    ./setup-env.sh\n\n"
+# echo "設定 caddy server 執行："
+# printf "    ./setup-caddy.sh\n\n"
 
-printf "執行以下指令啟動 container：\n"
-printf "      docker-compose up -d\n\n"
+# printf "執行以下指令啟動 container：\n"
+# printf "      docker-compose up -d\n\n"
