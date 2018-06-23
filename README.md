@@ -15,7 +15,6 @@
 - Debian based OS，建議使用 Ubuntu Server
 - CentOS 7
 - curl
-- wget
 - unzip
 
 ## 安裝步驟
@@ -23,7 +22,7 @@
 ### 1. 下載 xoops-easy-dock 並解壓縮
 
 ```bash
-wget https://github.com/t301000/xoops-easy-dock/archive/master.zip
+curl -L https://github.com/t301000/xoops-easy-dock/archive/master.zip -o master.zip
 unzip master.zip
 ```
 解壓縮之後會有一個名稱為 xoops-easy-dock-master 之目錄。

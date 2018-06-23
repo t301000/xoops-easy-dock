@@ -9,15 +9,15 @@ fi
 if [ ! -f /usr/bin/unzip ] ; then
     printf "***** 安裝 unzip *****\n\n"
     if [ "$lsb_dist" == "centos" ]; then
-        sudo yum install -y unzip wget vim
+        sudo yum install -y unzip vim
     else
-        sudo apt install -y unzip
+        sudo apt install -y unzip vim
     fi
 fi
 
 if [ ! -f my_xoops.zip ] ; then
     printf "***** 開始下載最新版安裝檔 *****\n\n"
-    wget http://120.115.2.90/uploads/my_xoops.zip
+    curl -L http://120.115.2.90/uploads/my_xoops.zip -o my_xoops.zip
 fi
 
 printf "***** 開始解壓縮 *****\n\n"
