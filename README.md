@@ -24,7 +24,6 @@ sudo apt install -y unzip curl
 # CentOS 7
 sudo yum install -y unzip curl
 ```
-
 ## 安裝步驟
 
 ### 1. 下載 xoops-easy-dock 並解壓縮
@@ -42,120 +41,15 @@ unzip master.zip
 mv xoops-easy-dock-master xoops
 ```
 
-### 3. 安裝 Docker 與 docker-compose
+### 3. 執行安裝腳本
 
+執行安裝腳本，依序完成各個步驟。
 ```bash
 cd xoops
-./install-docker.sh
+./install.sh
 ```
 
-登出再重新登入，執行以下指令，能看到 Client 與 Server 版本則 Docker 安裝完成。
-```bash
-docker version
-```
-
-執行以下指令，查看 docker-compose [版本](https://github.com/docker/compose/releases)。
-```bash
-docker-compose version
-```
-
-### 4. 進行容器啟動前之前置作業
-
-```bash
-./prepare.sh
-```
-
-此步驟會下載 XOOPS 輕鬆架，建立目錄並變更權限：
-- db_data：此目錄會存放 ssl 證書相關檔案與資料庫檔案（ mysql 目錄）
-- logs：此目錄下的 caddy 目錄存放 caddy 之 log 檔
-- site：存放 XOOPS 程式
-
-### 5. 進行設定
-
-環境設定檔為 .env ，若不存在則執行：
-```bash
-cp env-example .env
-```
-
-.env 一般只須設定資料庫資料。
-
-找到以下區塊：
-```
-### MYSQL #################################################
-
-MYSQL_VERSION=8.0.11
-MYSQL_DATABASE=default
-MYSQL_USER=default
-MYSQL_PASSWORD=secret
-MYSQL_PORT=3306
-MYSQL_ROOT_PASSWORD=root
-MYSQL_ENTRYPOINT_INITDB=./mysql/docker-entrypoint-initdb.d
-```
-
-設定以下項目：
-- MYSQL_DATABASE：欲使用的資料庫名稱，預設為 default
-- MYSQL_USER：欲使用的資料庫帳號，預設為 default
-- MYSQL_PASSWORD：欲使用的資料庫密碼，預設為 secret
-- MYSQL_ROOT_PASSWORD：設定 root 密碼，預設為 root
-
-### 6. 網站 SSL 憑證
-
-請務必先設定好 DNS，編輯 caddy 目錄下的 Caddyfile。
-
-```bash
-vim caddy/Caddyfile
-```
-
-#### 6.1
-找到：
-```
-0.0.0.0:80 {
-    ...省略
-}
-```
-將 0.0.0.0:80 改為如： www.example.com
-
-#### 6.2
-這個步驟是啟動 https 的關鍵，在上一段中找到：
-```
-#tls self_signed
-```
-改為（記得 email 換成正確的）
-```
-tls user@gmail.com
-```
-
-以上設定即可自動申請憑證與自動更新，正式上線前才做。
-
-因為 [Let's Encrypt](https://letsencrypt.org/) 的憑證申請有流量限制（[參考文章](http://cctg.blogspot.tw/2016/08/lets-encrypt-ssl-key.html)，[官方文件 Rate Limits](https://letsencrypt.org/docs/rate-limits/)），練習時為了避免同一個 FQDN 超過限制，造成正式上線時無法即時申請到憑證，可以啟用如下設定(記得 email 換成正確的，正式上線前記得註解掉)，此設定下 https 連線會標示為不安全：
-```
-tls user@gmail.com {
-    ca https://acme-staging-v02.api.letsencrypt.org/directory
-}
-```
-
-#### 6.3
-若想要將以 server ip 連線之 http 連線轉至 https，則繼續進行以下設定。
-找到：
-```
-#:80 {
-#    redir https://www.example.com{uri}
-#}
-```
-改為（記得將 www.example.com 改掉）
-```
-:80 {
-    redir https://www.example.com{uri}
-}
-```
-
-### 7. 啟動容器
-
-```bash
-docker-compose up -d
-```
-
-### 8. XOOPS 輕鬆架安裝
+### 4. XOOPS 輕鬆架安裝
 
 開啟瀏覽器進行 XOOPS 輕鬆架安裝
 - 資料庫位址： mysql
@@ -163,7 +57,7 @@ docker-compose up -d
 - 資料庫帳號： .env 中 MYSQL_USER 之設定值，預設為 default
 - 資料庫密碼： .env 中 MYSQL_PASSWORD 之設定值，預設為 secret
 
-## 資料庫管理
+## 資料庫管理工具
 
 XOOPS 輕鬆架內建 [Adminer](https://www.adminer.org/) 管理資料庫，網址為：
 
@@ -173,3 +67,17 @@ http(s)://YOUR_SERVER/modules/tad_adm/pma.php
 - 帳號： .env 中 MYSQL_USER 之設定值，預設為 default
 - 密碼： .env 中 MYSQL_PASSWORD 之設定值，預設為 secret
 - 資料庫： .env 中 MYSQL_DATABASE 之設定值，預設為 default，可不輸入
+
+## 容器管理工具
+
+如果有啟動 portainer，則可由以下網址進入管理，自行替換 server_ip 與 port(預設 9000)：
+```bash
+http://server_ip:port
+```
+
+第一次進入時：
+1. 建立帳號
+![建立帳號](img/portainer_create_user.png)
+
+1. 連線類型選擇 local
+![連線類型選擇](img/portainer_connect_type.png)
