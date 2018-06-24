@@ -17,6 +17,14 @@
 - curl
 - unzip
 
+```bash
+# Debian based OS
+sudo apt install -y unzip curl
+
+# CentOS 7
+sudo yum install -y unzip curl
+```
+
 ## 安裝步驟
 
 ### 1. 下載 xoops-easy-dock 並解壓縮
