@@ -17,6 +17,7 @@
 - curl
 - unzip
 
+若未安裝 curl 與 unzip 者，請先進行安裝。
 ```bash
 # Debian based OS
 sudo apt install -y unzip curl
@@ -51,7 +52,12 @@ cd xoops
 
 ### 4. XOOPS 輕鬆架安裝
 
-開啟瀏覽器進行 XOOPS 輕鬆架安裝
+開啟瀏覽器進行 XOOPS 輕鬆架安裝。
+
+```bash
+http(s)://YOUR_SERVER
+```
+
 - 資料庫位址： mysql
 - 資料庫名稱： .env 中 MYSQL_DATABASE 之設定值，預設為 default
 - 資料庫帳號： .env 中 MYSQL_USER 之設定值，預設為 default
@@ -59,9 +65,11 @@ cd xoops
 
 ## 資料庫管理工具
 
-XOOPS 輕鬆架內建 [Adminer](https://www.adminer.org/) 管理資料庫，網址為：
+XOOPS 輕鬆架內建 [Adminer](https://www.adminer.org/) 可管理資料庫。
 
+```bash
 http(s)://YOUR_SERVER/modules/tad_adm/pma.php
+```
 
 - 伺服器：mysql
 - 帳號： .env 中 MYSQL_USER 之設定值，預設為 default
@@ -70,9 +78,10 @@ http(s)://YOUR_SERVER/modules/tad_adm/pma.php
 
 ## 容器管理工具
 
-如果有啟動 portainer，則可由以下網址進入管理，自行替換 server_ip 與 port(預設 9000)：
+如果有啟動 [Portainer](https://portainer.io/)，則可由以下網址進入管理，自行替換 網址 與 port (預設 9000)。
+
 ```bash
-http://server_ip:port
+http://YOUR_SERVER:PORT
 ```
 
 第一次進入時：
