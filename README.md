@@ -50,6 +50,8 @@ cd xoops
 ./install.sh
 ```
 
+![安裝腳本選單](img/install_menu.png)
+
 ### 4. XOOPS 輕鬆架安裝
 
 開啟瀏覽器進行 XOOPS 輕鬆架安裝。
