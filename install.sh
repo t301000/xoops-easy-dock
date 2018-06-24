@@ -7,14 +7,14 @@
 # menu example => https://askubuntu.com/a/1716
 # PS3 => http://benjr.tw/96409
 show_menu() {
-    printf "\n\n\n"
+    printf "\n\n"
     echo "*************************"
     echo "   xoops-easy-dock 安裝   "
     echo "*************************"
     printf "\n"
 
-    PS3='請輸入要執行的項目編號：[1-6]  '
-    options=("安裝Docker" "準備作業" "設定.env" "設定caddy" "啟動portainer" "離開")
+    PS3='請輸入要執行的項目編號：[1-7]  '
+    options=("安裝Docker" "準備作業" "設定.env" "設定caddy" "啟動caddy與MySQL" "啟動portainer" "離開")
     select opt in "${options[@]}"
     do
         case $opt in
@@ -38,6 +38,11 @@ show_menu() {
                 ./setup-caddy.sh
                 show_menu
                 ;;
+            "啟動caddy與MySQL")
+                echo "**** 啟動 caddy、 php-fpm、 MySQL service ****"
+                docker-compose up -d
+                show_menu
+                ;;
             "啟動portainer")
                 echo "**** 啟動 portainer container ****"
                 ./run_portainer.sh
@@ -45,12 +50,9 @@ show_menu() {
                 ;;
             "離開")
                 printf "\n\n"
-                echo "若已完成所有步驟，執行以下指令啟動 container："
-                printf "      docker-compose up -d\n\n"
                 exit
                 ;;
-            *) 
-                show_menu
+            *)
                 ;;
         esac
     done
