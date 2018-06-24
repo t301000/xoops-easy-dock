@@ -98,44 +98,47 @@ if [[ "$value" != "" ]]; then
     FQDN=$value
 fi
 
-read -p "Email：  " value
-if [[ "$value" != "" ]]; then
-    EMAIL=$value
-fi
+if [[ "$FQDN" != "0.0.0.0:80" ]]; then
 
-ssl_mode=false
-read -p "正式啟用 SSL：(預設： N)[y/N]  " enable
-if [[ "$enable" == "y" ]] || [[ "$enable" == "Y" ]]; then
-    exit_when_fqdn_not_exist
-    exit_when_email_not_exist
-    enable_tls
-    disable_tls_test
-    ssl_mode=true
-fi
+    read -p "Email：  " value
+    if [[ "$value" != "" ]]; then
+        EMAIL=$value
+    fi
 
-ssl_test=false
-if [[ $ssl_mode == false ]]; then
-    read -p "測試啟用 SSL：(預設： N)[y/N]  " enable_test
-    if [[ "$enable_test" == "y" ]] || [[ "$enable_test" == "Y" ]]; then
+    ssl_mode=false
+    read -p "正式啟用 SSL：(預設： N)[y/N]  " enable
+    if [[ "$enable" == "y" ]] || [[ "$enable" == "Y" ]]; then
         exit_when_fqdn_not_exist
         exit_when_email_not_exist
-        disable_tls
-        enable_tls_test
-        ssl_test=true
+        enable_tls
+        disable_tls_test
+        ssl_mode=true
     fi
-fi
 
-
-ip_to_https=false
-if [[ $ssl_mode == true ]] || [[ $ssl_test == true ]]; then
-    read -p "強迫 http://ip 轉向 https://$FQDN：(預設： N)[y/N]  " enable_ip_to_https
-    if [[ "$enable_ip_to_https" == "y" ]] || [[ "$enable_ip_to_https" == "Y" ]]; then
-        # exit_when_fqdn_not_exist
-        enable_force_https
-        ip_to_https=true
+    ssl_test=false
+    if [[ $ssl_mode == false ]]; then
+        read -p "測試啟用 SSL：(預設： N)[y/N]  " enable_test
+        if [[ "$enable_test" == "y" ]] || [[ "$enable_test" == "Y" ]]; then
+            exit_when_fqdn_not_exist
+            exit_when_email_not_exist
+            disable_tls
+            enable_tls_test
+            ssl_test=true
+        fi
     fi
-fi
 
+
+    ip_to_https=false
+    if [[ $ssl_mode == true ]] || [[ $ssl_test == true ]]; then
+        read -p "強迫 http://ip 轉向 https://$FQDN：(預設： N)[y/N]  " enable_ip_to_https
+        if [[ "$enable_ip_to_https" == "y" ]] || [[ "$enable_ip_to_https" == "Y" ]]; then
+            # exit_when_fqdn_not_exist
+            enable_force_https
+            ip_to_https=true
+        fi
+    fi
+
+fi
 
 # echo $FQDN
 # echo $EMAIL
