@@ -88,8 +88,4 @@ CADDY_CUSTOM_CADDYFILE=./caddy/Caddyfile
 
 MYSQL_VERSION=8.0.11
 MYSQL_ENTRYPOINT_INITDB=./mysql/docker-entrypoint-initdb.d
-MYSQL_DATABASE=default
-MYSQL_USER=default
-MYSQL_PASSWORD=secret
-MYSQL_PORT=3306
-MYSQL_ROOT_PASSWORD=root
+# 以下由 setup-env.sh 設定

@@ -49,9 +49,6 @@ if [[ "$value" != "" ]]; then
 fi
 
 
-
-
-
 if [[ -f .env ]]; then
     DATE=`date '+%Y%m%d%H%M%S'`
     echo "備份 .env => .env.bak-${DATE}"
@@ -62,7 +59,6 @@ echo "產生 .env..."
 
 cp $TPL_FILE env-temp
 
-
 echo "MYSQL_DATABASE=${MYSQL_DATABASE}" >> env-temp
 echo "MYSQL_USER=${MYSQL_USER}" >> env-temp
 echo "MYSQL_PASSWORD=${MYSQL_PASSWORD}" >> env-temp
@@ -71,4 +67,4 @@ echo "MYSQL_PORT=${MYSQL_PORT}" >> env-temp
 
 mv env-temp .env
 
-printf "完成！！\n\n"
+printf ".env 設定完成！！\n\n"

@@ -36,8 +36,9 @@ if [ "$lsb_dist" == "centos" ]; then
     sudo systemctl start docker
 fi
 
-echo "**** 安裝完成 ****"
-echo "**** 請重新登入 ****"
+echo "**** Docker 與 docker-compose 安裝完成 ****"
+echo "**** 請重新登入以使權限生效 ****"
 echo "**** 重新登入後可執行以下指令查看版本： ****"
-echo "docker version"
-echo "docker-compose version"
+echo "    docker version"
+echo "    docker-compose version"
+printf "\n"

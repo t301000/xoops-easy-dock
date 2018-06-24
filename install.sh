@@ -7,6 +7,12 @@
 # menu example => https://askubuntu.com/a/1716
 # PS3 => http://benjr.tw/96409
 show_menu() {
+    printf "\n\n\n"
+    echo "*************************"
+    echo "   xoops-easy-dock 安裝   "
+    echo "*************************"
+    printf "\n"
+
     PS3='請輸入要執行的項目編號：[1-6]  '
     options=("安裝Docker" "準備作業" "設定.env" "設定caddy" "啟動portainer" "離開")
     select opt in "${options[@]}"
@@ -41,7 +47,7 @@ show_menu() {
                 printf "\n\n"
                 echo "若已完成所有步驟，執行以下指令啟動 container："
                 printf "      docker-compose up -d\n\n"
-                break
+                exit
                 ;;
             *) 
                 show_menu

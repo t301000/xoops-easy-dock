@@ -206,6 +206,7 @@ while read a ; do
     
 done < $TPL_FILE > $CADDYFILE
 
-printf "完成！！\n\n"
+printf "caddy server 設定完成！！\n\n"
 echo "執行以下指令可重新啟動 caddy server container :"
 echo "    docker-compose restart caddy"
+printf "\n"
