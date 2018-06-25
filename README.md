@@ -13,7 +13,7 @@
 ## 系統需求
 
 - Debian based OS，建議使用 Ubuntu Server
-- CentOS 7
+- CentOS 7 1804
 - curl
 - unzip
 
@@ -25,6 +25,7 @@ sudo apt install -y unzip curl
 # CentOS 7
 sudo yum install -y unzip curl
 ```
+
 ## 安裝步驟
 
 ### 1. 下載 xoops-easy-dock 並解壓縮

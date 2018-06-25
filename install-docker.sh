@@ -12,12 +12,13 @@ if [ -r /etc/os-release ]; then
 fi
 
 # install docker
-echo "**** 安裝 docker ****"
+echo "**** 安裝 Docker ****"
 sleep 3
 curl -fsSL get.docker.com -o get-docker.sh
 sh get-docker.sh
 
-printf "執行 usermod -aG docker $(whoami)\n\n"
+printf "\n\n"
+printf "**** 執行 usermod -aG docker $(whoami) ****\n\n"
 sudo usermod -aG docker $(whoami)
 sleep 3
 
@@ -37,6 +38,7 @@ if [ "$lsb_dist" == "centos" ]; then
 fi
 
 echo "**** Docker 與 docker-compose 安裝完成 ****"
+printf "\n"
 echo "**** 請重新登入以使權限生效 ****"
 echo "**** 重新登入後可執行以下指令查看版本： ****"
 echo "    docker version"
