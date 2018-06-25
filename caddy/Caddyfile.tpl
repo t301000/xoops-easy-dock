@@ -9,12 +9,12 @@ _FQDN_ {
     browse
     log /var/log/caddy/access.log
     errors /var/log/caddy/error.log
-    
+
     # Uncomment to enable TLS (HTTPS)
     # Change the first list to listen on port 443 when enabling TLS
     #tls self_signed
-    
-    _TLS_
+
+    _TLS_PROD_
 
     # 練習啟用 ssl 時請將以下 3 行取消註解並設定 email ，上線前再將其註解
     # 此模式下請以無痕模式開啟網頁
@@ -22,14 +22,12 @@ _FQDN_ {
     #    ca https://acme-staging-v02.api.letsencrypt.org/directory
     #}
 
-    _TLS_TEST_1_
-    _TLS_TEST_2_
-    _TLS_TEST_3_
+    _TLS_TEST_
 
     header / {
         # 隱藏 server 資訊
         -Server
-        
+
         # Enable HTTP Strict Transport Security (HSTS) to force clients to always
         # connect via HTTPS (do not use if only testing)
         Strict-Transport-Security "max-age=31536000; includeSubDomains"
@@ -42,7 +40,7 @@ _FQDN_ {
 
         # Disallow the site to be rendered within a frame (clickjacking protection)
         #X-Frame-Options "DENY"
-        
+
         # Referrer-Policy "no-referrer" ==> 可能會造成 iframe 內容出不來
         Referrer-Policy "strict-origin-when-cross-origin"
     }
@@ -53,7 +51,4 @@ _FQDN_ {
 #    redir https://www.example.com{uri}
 #}
 
-_FORCE_HTTPS_1_
-_FORCE_HTTPS_2_
-_FORCE_HTTPS_3_
-
+_FORCE_HTTPS_

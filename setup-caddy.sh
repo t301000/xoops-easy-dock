@@ -5,6 +5,8 @@
 
 # 樣板檔
 TPL_FILE="caddy/Caddyfile.tpl"
+# 暫存檔
+TEMP_FILE="caddy/Caddyfile.tmp"
 
 # Caddyfile
 CADDYFILE="caddy/Caddyfile"
@@ -16,17 +18,13 @@ FQDN="0.0.0.0:80"
 EMAIL=""
 
 # 正式環境
-TLS=""
+TLS_PROD=""
 
 # 練習模式
-TLS_TEST_1=""
-TLS_TEST_2=""
-TLS_TEST_3=""
+TLS_TEST=""
 
 # ip to https://FQDN
-FORCE_HTTPS_1=""
-FORCE_HTTPS_2=""
-FORCE_HTTPS_3=""
+FORCE_HTTPS=""
 
 
 exit_when_fqdn_not_exist() {
@@ -44,35 +42,29 @@ exit_when_email_not_exist() {
 }
 
 enable_tls() {
-    TLS="tls $EMAIL"
+    TLS_PROD="tls $EMAIL"
 }
 
 disable_tls() {
-    TLS=""
+    TLS_PROD=""
 }
 
 enable_tls_test() {
-    TLS_TEST_1="tls $EMAIL {"
-    TLS_TEST_2="ca https://acme-staging-v02.api.letsencrypt.org/directory"
-    TLS_TEST_3="}"
+    TLS_TEST="tls $EMAIL {\n\
+        ca https:\/\/acme-staging-v02.api.letsencrypt.org\/directory\n\
+    }"
 }
 
 disable_tls_test() {
-    TLS_TEST_1=""
-    TLS_TEST_2=""
-    TLS_TEST_3=""
+    TLS_TEST=""
 }
 
 enable_force_https() {
-    FORCE_HTTPS_1=":80 {"
-    FORCE_HTTPS_2="redir https://$FQDN{uri}"
-    FORCE_HTTPS_3="}"
+    FORCE_HTTPS=":80 {\n    redir https:\/\/$FQDN{uri}\n}"
 }
 
 disable_force_https() {
-    FORCE_HTTPS_1=""
-    FORCE_HTTPS_2=""
-    FORCE_HTTPS_3=""
+    FORCE_HTTPS=""
 }
 
 #### 開始 ####
@@ -84,7 +76,7 @@ RESET_DEFAULT=false
 read -p "重設 Caddyfile 回預設值：(預設： N)[y/N]  " value
 if [[ "$value" == "y" ]] || [[ "$value" == "Y" ]]; then
     RESET_DEFAULT=true
-fi 
+fi
 if [[ $RESET_DEFAULT == true ]]; then
     cp ${CADDYFILE}.orig $CADDYFILE
     echo "Caddyfile 已重設為預設值"
@@ -140,18 +132,6 @@ if [[ "$FQDN" != "0.0.0.0:80" ]]; then
 
 fi
 
-# echo $FQDN
-# echo $EMAIL
-# echo $TLS
-# echo $TLS_TEST_1
-# echo $TLS_TEST_2
-# echo $TLS_TEST_3
-# echo $FORCE_HTTPS_1
-# echo $FORCE_HTTPS_2
-# echo $FORCE_HTTPS_3
-
-# exit
-
 DATE=`date '+%Y%m%d%H%M%S'`
 
 echo "備份 $CADDYFILE => ${CADDYFILE}.bak-${DATE}"
@@ -159,55 +139,14 @@ cp $CADDYFILE ${CADDYFILE}.bak-${DATE}
 
 echo "產生 $CADDYFILE..."
 
-while read a ; do
-    keep=true
-    if [[ "$a" == "_FQDN_"* ]]; then
-        echo ${a/_FQDN_/$FQDN}
-        keep=false
-    fi
+cp $TPL_FILE $TEMP_FILE
 
-    if [[ "$a" == "_TLS_" ]]; then
-        # echo ${a/_TLS_TEST_/$TLS_TEST}
-        echo $TLS
-        keep=false
-    fi
+sed -i "s/_FQDN_/$FQDN/g" $TEMP_FILE
+sed -i "s/_TLS_PROD_/$TLS_PROD/g" $TEMP_FILE
+sed -i "s/_TLS_TEST_/$TLS_TEST/g" $TEMP_FILE
+sed -i "s/_FORCE_HTTPS_/$FORCE_HTTPS/g" $TEMP_FILE
 
-    if [[ "$a" == "_TLS_TEST_1_" ]]; then
-        # echo ${a/_TLS_TEST_/$TLS_TEST}
-        echo $TLS_TEST_1
-        keep=false
-    fi
-
-    if [[ "$a" == "_TLS_TEST_2_" ]]; then
-        echo $TLS_TEST_2
-        keep=false
-    fi
-
-    if [[ "$a" == "_TLS_TEST_3_" ]]; then
-        echo $TLS_TEST_3
-        keep=false
-    fi
-
-    if [[ "$a" == "_FORCE_HTTPS_1_" ]]; then
-        echo $FORCE_HTTPS_1
-        keep=false
-    fi
-
-    if [[ "$a" == "_FORCE_HTTPS_2_" ]]; then
-        echo $FORCE_HTTPS_2
-        keep=false
-    fi
-
-    if [[ "$a" == "_FORCE_HTTPS_3_" ]]; then
-        echo $FORCE_HTTPS_3
-        keep=false
-    fi
-
-    if [[ $keep == true ]]; then
-        echo "$a"
-    fi
-    
-done < $TPL_FILE > $CADDYFILE
+mv $TEMP_FILE $CADDYFILE
 
 printf "caddy server 設定完成！！\n\n"
 echo "執行以下指令可重新啟動 caddy server container :"
