@@ -6,11 +6,23 @@ if [ "${ans}" != "yes" ];then
     exit 0
 fi
 
+echo "***** 停止並移除 caddy、php-fpm、MySQL 容器 *****"
+docker-compose -f docker-compose-prod.yml down
+
+ans=""
+read -p "是否停止並移除 portainer 容器？[y/N]" ans
+if [ "${ans}" == "y" ] || [ "${ans}" == "Y" ];then
+  docker rm -f -v portainer
+  docker volume prune -f
+fi
+
 ans=""
 read -p "是否清除資料庫檔案？[y/N]" ans
 if [ "${ans}" == "y" ] || [ "${ans}" == "Y" ];then
   # sudo rm -rf db_data/mysql/*
-  sudo rm -rf db_data/mysql/*
+  sudo rm -rf db_data/mysql
+  mkdir -p db_data/mysql
+  chmod 777 -Rf db_data
   echo "***** 資料庫檔案清除完畢 *****"
 fi
 
