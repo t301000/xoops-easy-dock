@@ -42,11 +42,11 @@ if [[ "$value" != "" ]]; then
     MYSQL_ROOT_PASSWORD=$value
 fi
 
-value=""
-read -p "資料庫 port：(預設： 3306)  " value
-if [[ "$value" != "" ]]; then
-    MYSQL_PORT=$value
-fi
+#value=""
+#read -p "資料庫 port：(預設： 3306)  " value
+#if [[ "$value" != "" ]]; then
+#    MYSQL_PORT=$value
+#fi
 
 
 if [[ -f .env ]]; then
@@ -63,7 +63,7 @@ echo "MYSQL_DATABASE=${MYSQL_DATABASE}" >> env-temp
 echo "MYSQL_USER=${MYSQL_USER}" >> env-temp
 echo "MYSQL_PASSWORD=${MYSQL_PASSWORD}" >> env-temp
 echo "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}" >> env-temp
-echo "MYSQL_PORT=${MYSQL_PORT}" >> env-temp
+#echo "MYSQL_PORT=${MYSQL_PORT}" >> env-temp
 
 mv env-temp .env
 
