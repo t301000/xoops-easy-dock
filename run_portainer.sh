@@ -83,7 +83,7 @@ echo "**** 正在啟動 portainer container ****"
 #-v /var/run/docker.sock:/var/run/docker.sock \
 #${data_path_arg} \
 #portainer/portainer:${tag}
-docker container run --name portainer \
+sudo docker container run --name portainer \
 -d \
 -p ${host_port}:9000 \
 ${policy_arg} \

@@ -40,7 +40,7 @@ show_menu() {
                 ;;
             "啟動caddy與MySQL")
                 echo "**** 啟動 caddy、 php-fpm、 MySQL service ****"
-                docker-compose up -d
+                sudo docker-compose up -d
                 show_menu
                 ;;
             "啟動portainer")
