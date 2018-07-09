@@ -15,8 +15,10 @@ value=""
 read -p "安裝目錄名稱：(預設： xoops)  " value
 if [[ "$value" != "" ]]; then
     TARGET_DIR=$value
-    printf ">>>> 安裝路徑： ${PWD}/${TARGET_DIR}/\n\n"
 fi
+printf ">>>> 安裝路徑： ${PWD}/${TARGET_DIR}/\n\n"
+
+sleep 2
 
 echo "***** 下載 xoops-easy-dock *****"
 printf "\n"

@@ -55,6 +55,7 @@ if [[ -f .env ]]; then
     mv .env .env.bak-${DATE}
 fi
 
+printf "\n\n"
 echo "產生 .env..."
 
 cp $TPL_FILE env-temp

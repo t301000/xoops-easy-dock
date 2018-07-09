@@ -28,7 +28,18 @@ sudo yum install -y unzip curl
 
 ## 安裝步驟
 
-### 1. 下載 xoops-easy-dock 並解壓縮
+### 懶人安裝法
+
+執行下列指令即可。
+```bash
+curl -L https://raw.githubusercontent.com/t301000/xoops-easy-dock/master/lazy.sh -o lazy.sh && chmod +x lazy.sh && ./lazy.sh
+```
+
+若無法完成安裝，則進行標準安裝步驟。
+
+### 標準安裝
+
+#### 1. 下載 xoops-easy-dock 並解壓縮
 
 ```bash
 curl -L https://github.com/t301000/xoops-easy-dock/archive/master.zip -o master.zip
@@ -36,14 +47,14 @@ unzip master.zip
 ```
 解壓縮之後會有一個名稱為 xoops-easy-dock-master 之目錄。
 
-### 2. 重命名目錄
+#### 2. 重命名目錄
 
 依需要將 xoops-easy-dock-master 目錄重命名，如 xoops ，此步驟可不做。
 ```bash
 mv xoops-easy-dock-master xoops
 ```
 
-### 3. 執行安裝腳本
+#### 3. 執行安裝腳本
 
 執行安裝腳本，依序完成各個步驟。
 ```bash
@@ -53,7 +64,7 @@ cd xoops
 
 ![安裝腳本選單](img/install_menu.png)
 
-### 4. XOOPS 輕鬆架安裝
+#### 4. XOOPS 輕鬆架安裝
 
 開啟瀏覽器進行 XOOPS 輕鬆架安裝。
 
