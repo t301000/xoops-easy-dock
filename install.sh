@@ -8,12 +8,12 @@
 # PS3 => http://benjr.tw/96409
 show_menu() {
     printf "\n\n"
-    echo "*************************"
-    echo "   xoops-easy-dock 安裝   "
+    echo "*********************************"
+    echo "   xoops-easy-dock 安裝"
     echo ""
     echo "   若要再次召喚此選單，請執行："
     echo "      ${PWD}/install.sh"
-    echo "*************************"
+    echo "*********************************"
     printf "\n"
 
     PS3='請輸入要執行的項目編號：[1-7]  '

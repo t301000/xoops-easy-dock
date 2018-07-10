@@ -74,6 +74,7 @@ clear
 echo "//////////////////////////////////////////////////"
 echo "此步驟設定網頁伺服器 Caddy"
 echo "若要一併啟用 SSL，務必先設定好 DNS 之正解"
+echo ""
 echo "設定檔位於："
 echo "    ${PWD}/caddy/Caddyfile"
 echo "//////////////////////////////////////////////////"
@@ -97,6 +98,7 @@ if [[ "${value}" != "n" ]] && [[ "${value}" != "N" ]]; then
     fi
 
     #### 以下開始設定 ####
+    echo ""
     echo "//////////////////////////////////////////////////"
     echo "若未設定好 DNS 之正解，請先採預設值"
     echo "待日後設定好 DNS 之正解，再執行此步驟重新設定"
@@ -143,6 +145,7 @@ if [[ "${value}" != "n" ]] && [[ "${value}" != "N" ]]; then
 
         ip_to_https=false
         if [[ $ssl_mode == true ]] || [[ $ssl_test == true ]]; then
+            echo ""
             echo "//////////////////////////////////////////////////"
             echo "若啟用 SSL，則無法以 ip 連線"
             echo "此項設定是將 http://ip 之連線強制轉向至 https://$FQDN"
@@ -179,6 +182,7 @@ if [[ "${value}" != "n" ]] && [[ "${value}" != "N" ]]; then
     echo "///////////////////////////////////////////////"
     echo "若 Caddy 容器啟動之後重新設定過"
     echo "則執行以下指令可重新啟動 Caddy 容器："
+    echo "    cd ${PWD}"
     echo "    docker-compose restart caddy"
     echo "///////////////////////////////////////////////"
     printf "\n"
