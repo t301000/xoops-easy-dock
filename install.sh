@@ -10,6 +10,9 @@ show_menu() {
     printf "\n\n"
     echo "*************************"
     echo "   xoops-easy-dock 安裝   "
+    echo ""
+    echo "   若要再次召喚此選單，請執行："
+    echo "      ${PWD}/install.sh"
     echo "*************************"
     printf "\n"
 
@@ -87,5 +90,5 @@ show_menu() {
         esac
     done
 }
-
+clear
 show_menu
