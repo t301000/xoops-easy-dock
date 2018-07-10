@@ -8,8 +8,11 @@ clear
 echo "//////////////////////////////////////////////////"
 echo "此步驟將啟動一個管理用之容器，其名稱為 portainer"
 echo "可由 web 界面管理容器"
+echo ""
 echo "此步驟可以不做"
+echo ""
 echo "請以可 sudo 之帳號進行"
+echo ""
 echo "以下各步驟若不清楚可採預設值"
 echo "若已安裝過則請跳過此步驟"
 echo "//////////////////////////////////////////////////"
@@ -37,6 +40,7 @@ if [[ "${value}" != "n" ]] && [[ "${value}" != "N" ]]; then
       tag="latest"
     fi
     echo "image 標籤：${tag}"
+    echo ""
 
     # 輸入 container name，預設為 自動
     #read -p "Container 名稱：(預設： auto) " container_name
@@ -54,6 +58,7 @@ if [[ "${value}" != "n" ]] && [[ "${value}" != "N" ]]; then
       host_port=9000
     fi
     echo "port： ${host_port}"
+    echo ""
 
     # 輸入 Data volume path or name，預設為 自動
     #read -p "Data volume 路徑或名稱：(預設： Auto) " data_path
@@ -84,11 +89,13 @@ if [[ "${value}" != "n" ]] && [[ "${value}" != "N" ]]; then
     fi
     policy_arg="--restart=${default_policy}"
     echo "重新啟動策略： ${default_policy}"
+    echo ""
 
     # 詢問是否正確，預設 y
     read -p "以上設定正確？(預設： Y)[Y/n]" ok
     if [ "${ok}" == "y" ] || [ "${ok}" == "Y" ] || [ "${ok}" == "" ];then
     echo "**** 正在啟動 portainer container ****"
+    echo ""
 
     #docker container run ${name_arg} \
     #${rm_arg} \
@@ -106,10 +113,13 @@ if [[ "${value}" != "n" ]] && [[ "${value}" != "N" ]]; then
     portainer/portainer:${tag}
     fi
 
+    echo ""
     echo "**** portainer container 已啟動 ****"
+    echo ""
     echo "**** 可由以下網址進入 ****"
     echo "    http://ip:9000"
-    echo "    第一次進入請設定帳號與密碼，第二個畫面請選擇"
+    echo ""
+    echo "    第一次進入請設定帳號與密碼"
     echo "    第二個畫面請選擇 local，再按下 connect 按鈕"
     printf "\n"
 fi
