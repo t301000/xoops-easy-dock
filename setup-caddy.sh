@@ -115,10 +115,26 @@ if [[ "${value}" != "n" ]] && [[ "${value}" != "N" ]]; then
 
     if [[ "$FQDN" != "0.0.0.0:80" ]]; then
 
+        echo ""
+        echo "//////////////////////////////////////////////////"
+        echo "啟用 SSL 必須提供管理員的 Email"
+        echo "不論是正式啟用或測試模式"
+        echo "//////////////////////////////////////////////////"
+        echo ""
+
         read -p "網站管理員之 Email：  " value
         if [[ "$value" != "" ]]; then
             EMAIL=$value
         fi
+
+        echo ""
+        echo "//////////////////////////////////////////////////"
+        echo "網站正式上線才須正式啟用"
+        echo ""
+        echo "因為 Let's Encrypt 核發 SSL 證書有流量限制"
+        echo "練習時此選項請採用預設值（不正式啟用）以免超過限制"
+        echo "//////////////////////////////////////////////////"
+        echo ""
 
         ssl_mode=false
         read -p "是否正式啟用 SSL：(預設： N)[y/N]  " enable
@@ -132,6 +148,13 @@ if [[ "${value}" != "n" ]] && [[ "${value}" != "N" ]]; then
 
         ssl_test=false
         if [[ $ssl_mode == false ]]; then
+            echo ""
+            echo "//////////////////////////////////////////////////"
+            echo "啟用 SSL 測試模式"
+            echo "測試模式下可以 https 連線，但會顯示不安全"
+            echo "//////////////////////////////////////////////////"
+            echo ""
+
             read -p "是否啟用 SSL 測試模式：(預設： N)[y/N]  " enable_test
             if [[ "$enable_test" == "y" ]] || [[ "$enable_test" == "Y" ]]; then
                 exit_when_fqdn_not_exist

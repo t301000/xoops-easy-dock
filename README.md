@@ -34,13 +34,13 @@ sudo yum install -y unzip curl
 ```bash
 curl -L https://raw.githubusercontent.com/t301000/xoops-easy-dock/master/lazy.sh -o lazy.sh && chmod +x lazy.sh && ./lazy.sh
 ```
-完成後請依標準安裝之步驟4，開啟瀏覽器進行 XOOPS 輕鬆架安裝。
+過程中請務必詳閱各項目之說明，完成後請依標準安裝之步驟4，開啟瀏覽器進行 XOOPS 輕鬆架安裝。
 
 ```bash
 http(s)://YOUR_SERVER
 ```
 
-若無法完成安裝，則進行標準安裝步驟。
+若無法完成安裝，則依標準安裝進行。
 
 ### 標準安裝
 
