@@ -16,8 +16,8 @@ show_menu() {
     echo "*********************************"
     printf "\n"
 
-    PS3='請輸入要執行的項目編號：[1-7]  '
-    options=("安裝Docker" "準備作業" "設定.env" "設定caddy" "啟動caddy與MySQL" "啟動portainer" "離開")
+    PS3='請輸入要執行的項目編號：[1-8]  '
+    options=("安裝Docker" "準備作業" "設定.env" "設定caddy" "啟動caddy與MySQL" "啟動portainer" "離開" "更新/重啟portainer")
     select opt in "${options[@]}"
     do
         case $opt in
@@ -84,6 +84,16 @@ show_menu() {
             "離開")
                 printf "\n\n"
                 exit
+                ;;
+            "更新/重啟portainer")
+                echo "**** 更新/重啟 portainer container ****"
+                ./rerun_portainer.sh
+                echo ""
+                echo "////////////////////"
+                echo "    步驟 8 已完成"
+                echo "////////////////////"
+                echo ""
+                show_menu
                 ;;
             *)
                 ;;

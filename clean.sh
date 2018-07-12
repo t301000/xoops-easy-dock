@@ -49,7 +49,7 @@ show_menu() {
                 echo ">>> 停止並移除portainer"
                 confirm
 
-                docker rm -f -v portainer
+                docker container rm -f -v portainer
                 docker volume prune -f
 
                 echoOK
