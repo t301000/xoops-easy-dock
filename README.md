@@ -40,6 +40,9 @@ curl -L https://raw.githubusercontent.com/t301000/xoops-easy-dock/master/lazy.sh
 http(s)://YOUR_SERVER
 ```
 
+[![xoops-easy-dock 安裝](http://img.youtube.com/vi/3VCOzrGoFBQ/0.jpg)](http://www.youtube.com/watch?v=3VCOzrGoFBQ "xoops-easy-dock 安裝")
+
+
 若無法完成安裝，則依標準安裝進行。
 
 ### 標準安裝
