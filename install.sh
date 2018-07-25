@@ -12,7 +12,8 @@ show_menu() {
     echo "   xoops-easy-dock 安裝"
     echo ""
     echo "   若要再次召喚此選單，請執行："
-    echo "      ${PWD}/install.sh"
+    echo "      cd ${PWD}"
+    echo "      ./install.sh"
     echo "*********************************"
     printf "\n"
 

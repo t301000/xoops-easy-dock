@@ -31,7 +31,8 @@ if [[ "${value}" != "n" ]] && [[ "${value}" != "N" ]]; then
 
     echo "////////////////////////////////////////"
     echo "以後若要叫出安裝選單，請執行"
-    echo "    ${PWD}/${TARGET_DIR}/install.sh"
+    echo "    cd ${PWD}/${TARGET_DIR}"
+    echo "    ./install.sh"
     echo "////////////////////////////////////////"
     sleep 5
 
