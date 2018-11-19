@@ -15,7 +15,7 @@ echo ""
 read -p "是否繼續？(預設： Y)[Y/n] " value
 if [[ "${value}" != "n" ]] && [[ "${value}" != "N" ]]; then
 
-    docker_compose_version="1.22.0"
+    docker_compose_version="1.23.1"
 
     lsb_dist=""
     # Every system that we officially support has /etc/os-release
