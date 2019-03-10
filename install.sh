@@ -17,8 +17,8 @@ show_menu() {
     echo "*********************************"
     printf "\n"
 
-    PS3='請輸入要執行的項目編號：[1-8]  '
-    options=("安裝Docker" "準備作業" "設定.env" "設定caddy" "啟動caddy與MySQL" "啟動portainer" "離開" "更新/重啟portainer")
+    PS3='請輸入要執行的項目編號：[1-9]  '
+    options=("安裝Docker" "準備作業" "設定.env" "設定caddy" "啟動caddy與MySQL" "啟動portainer" "離開" "更新/重啟portainer" "CentOS防火牆開放http與https")
     select opt in "${options[@]}"
     do
         case $opt in
@@ -92,6 +92,16 @@ show_menu() {
                 echo ""
                 echo "////////////////////"
                 echo "    步驟 8 已完成"
+                echo "////////////////////"
+                echo ""
+                show_menu
+                ;;
+            "CentOS防火牆開放http與https")
+                echo "**** CentOS 防火牆開放 http 與 https ****"
+                ./centos_firewalld_http_https.sh
+                echo ""
+                echo "////////////////////"
+                echo "    步驟 9 已完成"
                 echo "////////////////////"
                 echo ""
                 show_menu
