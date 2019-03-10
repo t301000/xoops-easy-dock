@@ -15,7 +15,7 @@ echo ""
 read -p "是否繼續？(預設： Y)[Y/n] " value
 if [[ "${value}" != "n" ]] && [[ "${value}" != "N" ]]; then
 
-    docker_compose_version="1.23.1"
+    # docker_compose_version="1.23.1"
 
     lsb_dist=""
     # Every system that we officially support has /etc/os-release
@@ -35,11 +35,20 @@ if [[ "${value}" != "n" ]] && [[ "${value}" != "N" ]]; then
     sleep 3
 
     # install docker-compose
-    echo "**** 安裝 docker-compose ${docker_compose_version} ****"
+    echo "**** 安裝 docker-compose ****"
     sleep 3
-    curl -L https://github.com/docker/compose/releases/download/${docker_compose_version}/docker-compose-`uname -s`-`uname -m` -o docker-compose
-    sudo mv docker-compose /usr/local/bin/docker-compose
-    chmod +x /usr/local/bin/docker-compose
+    compose_version=$(curl https://api.github.com/repos/docker/compose/releases/latest | jq .name -r)
+    echo ">>>> docker-compose 版本： ${compose_version}"
+    output='/usr/local/bin/docker-compose'
+    sudo curl -L https://github.com/docker/compose/releases/download/$compose_version/docker-compose-$(uname -s)-$(uname -m) -o $output
+    sudo chmod +x $output
+    echo $(docker-compose --version)
+    printf "\n\n"
+    # echo "**** 安裝 docker-compose ${docker_compose_version} ****"
+    # sleep 3
+    # curl -L https://github.com/docker/compose/releases/download/${docker_compose_version}/docker-compose-`uname -s`-`uname -m` -o docker-compose
+    # sudo mv docker-compose /usr/local/bin/docker-compose
+    # chmod +x /usr/local/bin/docker-compose
 
     if [ "$lsb_dist" == "centos" ]; then
         echo "**** CentOS 啟用 docker daemon ****"
