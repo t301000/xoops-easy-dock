@@ -16,7 +16,7 @@ echo ""
 echo "以下各步驟若不清楚可採預設值"
 echo "若已安裝過則請跳過此步驟"
 echo ""
-echo "若為 CentOS 則須設定防火牆開放 TCP 9000 port"
+echo "若為 CentOS 則須設定防火牆開放連線 port（預設 9000）"
 echo "//////////////////////////////////////////////////"
 echo ""
 
@@ -117,9 +117,9 @@ if [[ "${value}" != "n" ]] && [[ "${value}" != "N" ]]; then
 
     # CentOS 防火牆設定
     read -p "是否為 CentOS ？(預設： N)[y/N]" ans
-    if [ "${ans}" == "n" ] || [ "${ans}" == "N" ] || [ "${ans}" == "" ];then
-        echo ">>>> 設定防火牆開放 9000 port"
-        sudo firewall-cmd --add-port=9000/tcp --permanent
+    if [ "${ans}" == "y" ] || [ "${ans}" == "Y" ];then
+        echo ">>>> 設定防火牆開放 ${host_port} port"
+        sudo firewall-cmd --add-port=${host_port}/tcp --permanent
         sudo firewall-cmd --reload
         echo ">>>> 目前防火牆設定："
         sudo firewall-cmd --list-all
