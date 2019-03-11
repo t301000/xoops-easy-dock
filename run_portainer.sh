@@ -129,7 +129,7 @@ if [[ "${value}" != "n" ]] && [[ "${value}" != "N" ]]; then
     echo "**** portainer container 已啟動 ****"
     echo ""
     echo "**** 可由以下網址進入 ****"
-    echo "    http://ip:9000"
+    echo "    http://ip:${host_port}"
     echo ""
     echo "    第一次進入請設定帳號與密碼"
     echo "    第二個畫面請選擇 local，再按下 connect 按鈕"
