@@ -20,7 +20,7 @@
 若未安裝 curl、unzip、jq 者，請先進行安裝。
 ```bash
 # Debian based OS
-sudo apt install -y unzip curl jq
+sudo apt install -y unzip curl deltarpm jq
 
 # CentOS 7
 sudo yum install -y epel-release
