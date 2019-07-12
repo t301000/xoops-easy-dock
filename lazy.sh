@@ -18,6 +18,32 @@ echo ""
 
 read -p "是否繼續？(預設： Y)[Y/n] " value
 if [[ "${value}" != "n" ]] && [[ "${value}" != "N" ]]; then
+
+    # 偵測作業系統，安裝必要套件，CentOS 開啟防火牆 80 443 port
+    myos=""
+    # Every system that we officially support has /etc/os-release
+    if [ -r /etc/os-release ]; then
+        myos="$(. /etc/os-release && echo "$ID")"
+    fi
+    if [ "$myos" == "centos" ]; then
+        echo "**** 作業系統為 CentOS ，安裝必要套件 ****"
+        sudo yum install -y epel-release
+        sudo yum install -y unzip curl deltarpm jq
+
+        echo "**** 作業系統為 CentOS ，防火牆開放 http 與 https ****"
+        echo ">>>> 設定防火牆...."
+        sudo firewall-cmd --add-service=http --add-service=https --permanent
+        echo ">>>> 重新載入防火牆...."
+        sudo firewall-cmd --reload
+        echo ">>>> 目前防火牆設定："
+        sudo firewall-cmd --list-all
+    fi
+    if [ "$myos" == "ubuntu" ]; then
+        echo "**** 作業系統為 Ubuntu ，安裝必要套件 ****"
+        sudo apt install -y unzip curl jq
+    fi
+    # 偵測作業系統，安裝必要套件完成
+
     TARGET_DIR="xoops"
 
     #### 開始 ####

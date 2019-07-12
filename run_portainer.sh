@@ -115,15 +115,21 @@ if [[ "${value}" != "n" ]] && [[ "${value}" != "N" ]]; then
     portainer/portainer:${tag}
     fi
 
-    # CentOS 防火牆設定
-    read -p "是否為 CentOS ？(預設： N)[y/N]" ans
-    if [ "${ans}" == "y" ] || [ "${ans}" == "Y" ];then
+    # 偵測作業系統，若為 CentOS 則開啟防火牆
+    myos=""
+    # Every system that we officially support has /etc/os-release
+    if [ -r /etc/os-release ]; then
+        myos="$(. /etc/os-release && echo "$ID")"
+    fi
+    if [ "$myos" == "centos" ]; then
+        echo "**** 作業系統為 CentOS ，設定防火牆 ****"
         echo ">>>> 設定防火牆開放 ${host_port} port"
         sudo firewall-cmd --add-port=${host_port}/tcp --permanent
         sudo firewall-cmd --reload
         echo ">>>> 目前防火牆設定："
         sudo firewall-cmd --list-all
     fi
+    # 偵測作業系統，若為 CentOS 則開啟防火牆 完成
 
     echo ""
     echo "**** portainer container 已啟動 ****"
