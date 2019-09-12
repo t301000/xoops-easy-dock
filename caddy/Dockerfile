@@ -1,17 +1,7 @@
-FROM zuohuadong/caddy:alpine
-
-LABEL maintainer="Huadong Zuo <admin@zuohuadong.cn>"
-
-ARG plugins="cors"
-
-## ARG plugins="cors cgi cloudflare azure linode"
-
-
-RUN caddyplug install ${plugins}
-    
-
-EXPOSE 80 443 2015
+FROM abiosoft/caddy:no-stats
 
 WORKDIR /var/www/public
 
-CMD ["/usr/bin/caddy", "-agree", "-conf", "/etc/Caddyfile"]
+CMD ["--conf", "/etc/Caddyfile", "--log", "stdout", "--agree=true"]
+
+EXPOSE 80 443 2015
