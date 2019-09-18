@@ -14,6 +14,9 @@ services:
       volumes:
         - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
+      dns:
+        - 168.95.1.1
+        - 8.8.8.8
       expose:
         - "9000"
       extra_hosts:
