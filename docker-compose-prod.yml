@@ -10,7 +10,7 @@ services:
 
 ### PHP-FPM ##############################################
     php-fpm:
-      image: t301000/xoops.easy.dock.php-fpm:latest
+      image: t301000/xoops.easy.dock.php-fpm:${PHP_TAG}
       volumes:
         - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
@@ -27,7 +27,7 @@ services:
 
 ### MySQL ################################################
     mysql:
-      image: t301000/xoops.easy.dock.mysql:latest
+      image: t301000/xoops.easy.dock.mysql:${MYSQL_TAG}
       environment:
         - MYSQL_DATABASE=${MYSQL_DATABASE}
         - MYSQL_USER=${MYSQL_USER}
@@ -43,7 +43,7 @@ services:
 
 ### Caddy Server #########################################
     caddy:
-      image: t301000/xoops.easy.dock.caddy:latest
+      image: t301000/xoops.easy.dock.caddy:${CADDY_TAG}
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
         - ${CADDY_CUSTOM_CADDYFILE}:/etc/Caddyfile
