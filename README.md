@@ -113,3 +113,13 @@ http://YOUR_SERVER:PORT
 
 1. 連線類型選擇 local
 ![連線類型選擇](img/portainer_connect_type.png)
+
+## 更新
+
+<font color="red">請先做備份或先於測試機測試！</font>
+
+登入伺服器，複製貼上：
+
+```bash
+curl -L https://raw.githubusercontent.com/t301000/xoops-easy-dock/master/upgrade.sh -o upgrade.sh && chmod +x upgrade.sh && ./upgrade.sh
+```
