@@ -116,7 +116,7 @@ http://YOUR_SERVER:PORT
 
 ## 更新
 
-<font color="red">請先做備份或先於測試機測試！</font>
+<div class="text-white bg-red">請先做備份或先於測試機測試！</div>
 
 登入伺服器，複製貼上：
 
