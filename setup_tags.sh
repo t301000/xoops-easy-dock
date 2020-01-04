@@ -17,7 +17,7 @@ fi
 # 設定 PHP_TAG
 printf "\n設定 PHP_TAG"
 CURRENT_PHP_TAG=$(cat .env |grep ^PHP_TAG=)
-printf "目前設定 $CURRENT_PHP_TAG\n"
+printf "\n目前設定 $CURRENT_PHP_TAG\n"
 ans=""
 printf "可用之 tag 可至 https://hub.docker.com/r/t301000/xoops.easy.dock.php-fpm/tags 查詢\n"
 read -p "新設定值： " ans
@@ -29,7 +29,7 @@ fi
 # 設定 CADDY_TAG
 printf "\n設定 CADDY_TAG"
 CURRENT_CADDY_TAG=$(cat .env |grep ^CADDY_TAG=)
-printf "目前設定 $CURRENT_CADDY_TAG\n"
+printf "\n目前設定 $CURRENT_CADDY_TAG\n"
 ans=""
 printf "可用之 tag 可至 https://hub.docker.com/r/t301000/xoops.easy.dock.caddy/tags 查詢\n"
 read -p "新設定值： " ans
@@ -41,7 +41,7 @@ fi
 # 設定 MYSQL_TAG
 printf "\n設定 MYSQL_TAG"
 CURRENT_MYSQL_TAG=$(cat .env |grep ^MYSQL_TAG=)
-printf "目前設定 $CURRENT_MYSQL_TAG\n"
+printf "\n目前設定 $CURRENT_MYSQL_TAG\n"
 ans=""
 printf "可用之 tag 可至 https://hub.docker.com/r/t301000/xoops.easy.dock.mysql/tags 查詢\n"
 read -p "新設定值： " ans
@@ -57,8 +57,17 @@ cat .env |grep ^PHP_VERSION=
 cat .env |grep ^PHP_TAG=
 cat .env |grep ^CADDY_TAG=
 cat .env |grep ^MYSQL_TAG=
+printf "\n\n"
+ans=""
+printf "須啟動/重新啟動容器才會生效\n"
+read -p "是否 立即啟動/重新啟動 容器：（是 請輸入大寫 Y，其他視為 否）" ans
+if [[ "$ans" == "Y" ]]; then
+    ./down.sh && ./up.sh
+    exit 0
+fi
+printf "\n你選擇不立即啟動/重新啟動容器"
 printf "\n\n*****************************"
-printf "\n若有變更請依序執行以下指令才會生效"
+printf "\n若要啟動/重新啟動容器，請依序執行以下指令："
 printf "\n    ./down.sh"
 printf "\n    ./up.sh"
 printf "\n*****************************\n\n"
