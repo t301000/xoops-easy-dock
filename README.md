@@ -127,3 +127,8 @@ curl -L https://raw.githubusercontent.com/t301000/xoops-easy-dock/master/upgrade
 ## 變更 PHP 版本或 docker image tag
 
 執行安裝目錄下的 setup_tags.sh，依畫面指示進行。
+
+可用 tag 查詢：
+- [PHP](https://hub.docker.com/r/t301000/xoops.easy.dock.php-fpm/tags)
+- [Caddy](https://hub.docker.com/r/t301000/xoops.easy.dock.caddy/tags)
+- [MySQL](https://hub.docker.com/r/t301000/xoops.easy.dock.mysql/tags)
