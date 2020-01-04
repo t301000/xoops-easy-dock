@@ -21,7 +21,7 @@ if [[ "$current_path" == "$install_path" ]]; then
 fi
 
 ans=""
-printf "\n安裝路徑為 ${install_path}\n"
+printf "\n安裝路徑為 ${install_path}\n\n"
 read -p "是否正確？（是 請輸入大寫 Y，其他視為 否） " ans
 if [[ "$ans" != "Y" ]]; then
     printf "\n結束執行\n\n"
@@ -147,13 +147,26 @@ cd ..
 printf "\n*****************************"
 printf "\n請確認以下環境設定是否正確（應有 8 項）："
 printf "\n*****************************\n\n"
+printf "PHP 版本：\n"
+printf "    "
 cat .env |grep ^PHP_VERSION=
+printf "\nPHP image tag：\n"
+printf "    "
 cat .env |grep ^PHP_TAG=
+printf "\nCaddy image tag：\n"
+printf "    "
 cat .env |grep ^CADDY_TAG=
+printf "\nMySQL image tag：\n"
+printf "    "
 cat .env |grep ^MYSQL_TAG=
+printf "\nMySQL 帳密資訊：\n"
+printf "    "
 cat .env |grep ^MYSQL_DATABASE=
+printf "    "
 cat .env |grep ^MYSQL_USER=
+printf "    "
 cat .env |grep ^MYSQL_PASSWORD=
+printf "    "
 cat .env |grep ^MYSQL_ROOT_PASSWORD=
 printf "\n"
 ans=""
