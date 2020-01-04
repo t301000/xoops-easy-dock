@@ -123,3 +123,7 @@ http://YOUR_SERVER:PORT
 ```bash
 curl -L https://raw.githubusercontent.com/t301000/xoops-easy-dock/master/upgrade.sh -o upgrade.sh && chmod +x upgrade.sh && ./upgrade.sh
 ```
+
+## 變更 PHP 版本或 docker image tag
+
+執行安裝目錄下的 setup_tags.sh，依畫面指示進行。
