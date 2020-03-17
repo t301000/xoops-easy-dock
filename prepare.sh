@@ -41,6 +41,13 @@ if [[ "${value}" != "n" ]] && [[ "${value}" != "N" ]]; then
 
     printf "***** 搬移 xoops_data、xoops_lib *****\n\n"
     cd site
+    # 2020.03.17
+    # 修正：新安裝界面無法輸入資料庫主機
+    # 檔案：xoops_data/data/secure.php
+    # 32 行 將常數值改為 mysql
+    # 原來：define('XOOPS_DB_HOST', 'localhost');
+    sed -i 's/localhost/mysql/g' public/xoops_data/data/secure.php
+    
     mv public/xoops_* .
 
     printf "***** 變更資料夾權限 *****\n\n"
