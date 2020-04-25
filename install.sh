@@ -24,7 +24,29 @@ show_menu() {
         case $opt in
             "安裝Docker")
                 echo "**** 安裝 Docker 與 docker-compose ****"
-                ./install-docker.sh
+
+                # 是否使用 docker 官方 apt 來源
+                USE_DOCKER_APT=true
+                # 判斷是否為 ubuntu 20.04 以後（含）
+                if [ -r /etc/os-release ]; then
+                    OS_DIST="$(. /etc/os-release && echo "$ID")"
+
+                    if [[ "$OS_DIST" == "ubuntu" ]]; then
+                        MAIN_VERSION=$(. /etc/os-release && echo "$VERSION_ID" | cut -d'.' -f 1)
+
+                        if [[ $MAIN_VERSION -ge 20 ]]; then
+                            # ubuntu 20.04 以後（含），直接由預設 apt 來源安裝
+                            USE_DOCKER_APT=false
+                            ./install-docker-from-ubuntu-default-apt.sh
+                        fi
+                    fi
+                fi
+
+                # 使用 docker 官方 apt 來源
+                if [[ $USE_DOCKER_APT == true ]]; then
+                    ./install-docker.sh
+                fi
+
                 echo ""
                 echo "////////////////////"
                 echo "    步驟 1 已完成"
