@@ -1,5 +1,18 @@
 #!/bin/bash
 printf "\n<<<< 設定 image tag >>>>\n\n"
+printf "\n將先停止容器以策安全：\n\n"
+read -p "是否 停止 容器：（是 請輸入大寫 Y，其他視為 否）" ans
+if [[ "$ans" == "Y" ]]; then
+    #./down.sh && ./up.sh
+    ./down.sh
+else
+	printf "\n請先停止容器再重新執行 image tag 設定。"
+	printf "\n    ./down.sh"
+	printf "\n    ./setup_tags.sh"
+	exit 0
+fi
+
+
 printf "**** 以下各項目直接按 Enter 表示不做更改 ****\n\n"
 
 # 設定 PHP_VERSION
@@ -59,16 +72,16 @@ cat .env |grep ^CADDY_TAG=
 cat .env |grep ^MYSQL_TAG=
 printf "\n\n"
 ans=""
-printf "須啟動/重新啟動容器才會生效\n"
-read -p "是否 立即啟動/重新啟動 容器：（是 請輸入大寫 Y，其他視為 否）" ans
+# printf "須啟動/重新啟動容器才會生效\n"
+read -p "是否 立即啟動 容器：（是 請輸入大寫 Y，其他視為 否）" ans
 if [[ "$ans" == "Y" ]]; then
-    ./down.sh && ./up.sh
+    #./down.sh && ./up.sh
+    ./up.sh
     exit 0
 fi
-printf "\n你選擇不立即啟動/重新啟動容器"
+printf "\n你選擇不立即啟動容器"
 printf "\n\n*****************************"
-printf "\n若要啟動/重新啟動容器，請依序執行以下指令："
-printf "\n    ./down.sh"
+printf "\n若要啟動容器，請執行以下指令："
 printf "\n    ./up.sh"
 printf "\n*****************************\n\n"
 
