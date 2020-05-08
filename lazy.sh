@@ -40,7 +40,7 @@ if [[ "${value}" != "n" ]] && [[ "${value}" != "N" ]]; then
     fi
     if [ "$myos" == "ubuntu" ]; then
         echo "**** 作業系統為 Ubuntu ，安裝必要套件 ****"
-        sudo apt update && apt install -y unzip curl jq
+        sudo apt update && sudo apt install -y unzip curl jq
     fi
     # 偵測作業系統，安裝必要套件完成
 
