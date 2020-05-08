@@ -1,19 +1,53 @@
 #!/bin/bash
+
+# 是否顯示訊息以除錯
+SHOW_DEBUG=false
+
+# 參考：http://linux-wiki.cn/wiki/zh-tw/%E7%94%A8shell%E5%AE%9E%E7%8E%B0bat%E7%9A%84pause
+# 修改： if [...] => if [[...]]
+function pause(){
+        read -n 1 -p "$*" INP
+        if [[ $INP != '' ]] ; then
+                echo -ne '\b \n'
+        fi
+}
+
 printf "\n<<<< 設定 image tag >>>>\n\n"
-printf "\n將先停止容器以策安全：\n\n"
-read -p "是否 停止 容器：（是 請輸入大寫 Y，其他視為 否）" ans
-if [[ "$ans" == "Y" ]]; then
-    #./down.sh && ./up.sh
-    ./down.sh
-else
-	printf "\n請先停止容器再重新執行 image tag 設定。"
-	printf "\n    ./down.sh"
-	printf "\n    ./setup_tags.sh"
-	exit 0
+
+# 執行中服務數量
+SERVICE_COUNT=0
+# 服務是否已停止
+SERVICE_STOPPED=false
+SERVICE_COUNT=$(docker-compose ps | grep Up | wc -l)
+if [[ $SERVICE_COUNT -gt 0 ]]; then
+    printf "\n執行中服務/容器：\n\n"
+    docker-compose ps | grep Up
+
+    printf "\n若已有服務/容器執行中，建議先 停止 容器：\n\n"
+    read -p "是否 停止 容器：（是 請輸入大寫 Y，其他視為 否）" ans
+    if [[ "$ans" == "Y" ]]; then
+        ./down.sh
+    fi
+fi
+
+SERVICE_COUNT=$(docker-compose ps | grep Up | wc -l)
+if [[ $SERVICE_COUNT -eq 0 ]]; then
+    # 服務已完全停止或未執行
+    SERVICE_STOPPED=true
+fi
+
+# for debug
+if [[ $SHOW_DEBUG == true ]]; then
+    printf "\n\n==== for debug ===="
+    printf "\n執行中服務數量： $SERVICE_COUNT"
+    printf "\n服務已全部停止： $SERVICE_STOPPED"
+    printf "\n\n"
+    pause "按任意鍵繼續...."
 fi
 
 
-printf "**** 以下各項目直接按 Enter 表示不做更改 ****\n\n"
+
+printf "\n\n**** 以下各項目直接按 Enter 表示不做更改 ****\n\n"
 
 # 設定 PHP_VERSION
 printf "設定 PHP 版本 PHP_VERSION\n"
@@ -73,15 +107,21 @@ cat .env |grep ^MYSQL_TAG=
 printf "\n\n"
 ans=""
 # printf "須啟動/重新啟動容器才會生效\n"
-read -p "是否 立即啟動 容器：（是 請輸入大寫 Y，其他視為 否）" ans
+read -p "是否 立即啟動 服務/容器：（是 請輸入大寫 Y，其他視為 否）" ans
 if [[ "$ans" == "Y" ]]; then
-    #./down.sh && ./up.sh
+    if [[ $SERVICE_STOPPED == false ]]; then
+        # 若服務未停止則先停止服務
+        ./down.sh
+    fi
     ./up.sh
     exit 0
 fi
-printf "\n你選擇不立即啟動容器"
+printf "\n你選擇不立即啟動服務/容器"
 printf "\n\n*****************************"
-printf "\n若要啟動容器，請執行以下指令："
+printf "\n若要啟動服務/容器以使變更生效，請依序執行以下指令："
+if [[ $SERVICE_STOPPED == false ]]; then
+    printf "\n    ./down.sh"
+fi
 printf "\n    ./up.sh"
 printf "\n*****************************\n\n"
 
