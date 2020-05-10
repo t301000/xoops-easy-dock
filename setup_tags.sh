@@ -3,6 +3,20 @@
 # 是否顯示訊息以除錯
 SHOW_DEBUG=false
 
+# 參考： https://forums.docker.com/t/how-can-i-list-tags-for-a-repository/32577/8
+# 使用： listTags t301000/xoops.easy.dock.php-fpm 7.4
+function listTags() {
+    local repo=${1}
+    local ver=${2}
+
+    if [[ "$ver" == "" ]]; then
+        curl "https://hub.docker.com/v2/repositories/${repo}/tags" 2>/dev/null | jq -r '.results[].name' | sort 
+    else
+        curl "https://hub.docker.com/v2/repositories/${repo}/tags" 2>/dev/null | jq -r '.results[].name' | grep ${ver} | sort
+    fi
+}
+
+
 # 參考：http://linux-wiki.cn/wiki/zh-tw/%E7%94%A8shell%E5%AE%9E%E7%8E%B0bat%E7%9A%84pause
 # 修改： if [...] => if [[...]]
 function pause(){
@@ -45,6 +59,15 @@ if [[ $SHOW_DEBUG == true ]]; then
     pause "按任意鍵繼續...."
 fi
 
+ans=""
+read -p "是否備份 .env： [ Y 或 Enter 為 是 | 其他 為 否 ] " ans
+if [[ "$ans" == "y" ]] || [[ "$ans" == "Y" ]] || [[ "$ans" == "" ]]; then
+    if [[ -f .env ]]; then
+            DATE=`date '+%Y%m%d%H%M%S'`
+            echo "\n備份 .env => .env.bak-${DATE}"
+            cp .env .env.bak-${DATE}
+    fi
+fi
 
 
 printf "\n\n**** 以下各項目直接按 Enter 表示不做更改 ****\n\n"
@@ -55,8 +78,10 @@ CURRENT_PHP_VERSION=$(cat .env |grep ^PHP_VERSION=)
 printf "目前設定 $CURRENT_PHP_VERSION\n"
 printf "可用之值：7.0｜7.2｜7.3｜7.4\n"
 ans=""
+my_php_main_version=$(echo $CURRENT_PHP_VERSION | cut -d'=' -f 2)
 read -p "新設定值： " ans
 if [[ "$ans" != "" ]]; then
+    my_php_main_version=$ans
     ans=PHP_VERSION\=$ans
     sed -i "s/$CURRENT_PHP_VERSION/$ans/g" .env
 fi
@@ -66,7 +91,10 @@ printf "\n設定 PHP_TAG"
 CURRENT_PHP_TAG=$(cat .env |grep ^PHP_TAG=)
 printf "\n目前設定 $CURRENT_PHP_TAG\n"
 ans=""
-printf "可用之 tag 可至 https://hub.docker.com/r/t301000/xoops.easy.dock.php-fpm/tags 查詢\n"
+printf "可用之 tag：\n"
+listTags t301000/xoops.easy.dock.php-fpm $my_php_main_version
+printf "\n"
+printf "完整可用之 tag 列表可至 https://hub.docker.com/r/t301000/xoops.easy.dock.php-fpm/tags 查詢\n"
 read -p "新設定值： " ans
 if [[ "$ans" != "" ]]; then
     ans=PHP_TAG\=$ans
@@ -78,7 +106,10 @@ printf "\n設定 CADDY_TAG"
 CURRENT_CADDY_TAG=$(cat .env |grep ^CADDY_TAG=)
 printf "\n目前設定 $CURRENT_CADDY_TAG\n"
 ans=""
-printf "可用之 tag 可至 https://hub.docker.com/r/t301000/xoops.easy.dock.caddy/tags 查詢\n"
+printf "可用之 tag：\n"
+listTags t301000/xoops.easy.dock.caddy
+printf "\n"
+printf "完整可用之 tag 列表可至 https://hub.docker.com/r/t301000/xoops.easy.dock.caddy/tags 查詢\n"
 read -p "新設定值： " ans
 if [[ "$ans" != "" ]]; then
     ans=CADDY_TAG\=$ans
@@ -90,7 +121,10 @@ printf "\n設定 MYSQL_TAG"
 CURRENT_MYSQL_TAG=$(cat .env |grep ^MYSQL_TAG=)
 printf "\n目前設定 $CURRENT_MYSQL_TAG\n"
 ans=""
-printf "可用之 tag 可至 https://hub.docker.com/r/t301000/xoops.easy.dock.mysql/tags 查詢\n"
+printf "可用之 tag：\n"
+listTags t301000/xoops.easy.dock.mysql
+printf "\n"
+printf "完整可用之 tag 列表可至 https://hub.docker.com/r/t301000/xoops.easy.dock.mysql/tags 查詢\n"
 read -p "新設定值： " ans
 if [[ "$ans" != "" ]]; then
     ans=MYSQL_TAG\=$ans
