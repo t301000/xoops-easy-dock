@@ -76,15 +76,15 @@ WORKSPACE_TIMEZONE=Asia/Taipei
 
 ### PHP_FPM ###############################################
 # 可用之值： 7.4 - 7.3 - 7.2 - 7.0
-PHP_VERSION=7.0
+PHP_VERSION=7.4
 
 # 可用之值可至 https://hub.docker.com/r/t301000/xoops.easy.dock.php-fpm/tags 查詢
-PHP_TAG=latest
+PHP_TAG=7.4.5
 
 
 ### CADDY #################################################
 # 可用之值可至 https://hub.docker.com/r/t301000/xoops.easy.dock.caddy/tags 查詢
-CADDY_TAG=latest
+CADDY_TAG=1.0.3
 
 CADDY_HOST_HTTP_PORT=80
 CADDY_HOST_HTTPS_PORT=443
