@@ -60,11 +60,12 @@ if [[ $SHOW_DEBUG == true ]]; then
 fi
 
 ans=""
+printf "\n"
 read -p "是否備份 .env： [ Y 或 Enter 為 是 | 其他 為 否 ] " ans
 if [[ "$ans" == "y" ]] || [[ "$ans" == "Y" ]] || [[ "$ans" == "" ]]; then
     if [[ -f .env ]]; then
             DATE=`date '+%Y%m%d%H%M%S'`
-            echo "\n備份 .env => .env.bak-${DATE}"
+            printf "\n備份 .env => .env.bak-${DATE}"
             cp .env .env.bak-${DATE}
     fi
 fi
