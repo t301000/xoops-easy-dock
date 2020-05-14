@@ -17,8 +17,8 @@ show_menu() {
     echo "*********************************"
     printf "\n"
 
-    PS3='請輸入要執行的項目編號：[1-9]  '
-    options=("安裝Docker" "準備作業" "設定.env" "設定caddy" "啟動caddy與MySQL" "啟動portainer" "離開" "更新/重啟portainer" "CentOS防火牆開放http與https")
+    PS3='請輸入要執行的項目編號：[1-10]  '
+    options=("安裝Docker" "準備作業" "設定.env" "設定caddy" "啟動caddy與MySQL" "啟動portainer" "離開" "更新/重啟portainer" "CentOS防火牆開放http與https" "設定備份作業")
     select opt in "${options[@]}"
     do
         case $opt in
@@ -126,6 +126,11 @@ show_menu() {
                 echo "    步驟 9 已完成"
                 echo "////////////////////"
                 echo ""
+                show_menu
+                ;;
+            "設定備份作業")
+                echo "**** 設定備份作業 ****"
+                ./setup_backup_xoops.sh
                 show_menu
                 ;;
             *)
