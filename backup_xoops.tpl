@@ -5,10 +5,11 @@
 
 # xoops 安裝目錄
 INSTALL_PATH=_INSTALL_PATH
+# 備份檔目錄，安裝目錄同一層的 xoops_backup 目錄
+BACKUP_DIR="$(dirname ${INSTALL_PATH})/xoops_backup"
+
 # docker-compose 執行檔路徑
 DOCKER_COMPOSE="/usr/local/bin/docker-compose"
-# 備份檔目錄，安裝目錄同一層的 xoops_backup 目錄
-BACKUP_DIR="${INSTALL_PATH}/../xoops_backup"
 # 使用的 docker-compose.yml 檔路徑
 DOCKER_COMPOSE_YML="${INSTALL_PATH}/docker-compose-prod.yml"
 # .env 路徑
@@ -17,10 +18,18 @@ ENVFILE="${INSTALL_PATH}/.env"
 UP="${DOCKER_COMPOSE} -f ${DOCKER_COMPOSE_YML} --env-file ${ENVFILE} up -d"
 # 停止容器之指令，含參數
 DOWN="${DOCKER_COMPOSE} -f ${DOCKER_COMPOSE_YML} --env-file ${ENVFILE} down"
+
 # username
 MY_USERNAME=_MY_USERNAME
 # 保留幾份
 KEEP_COUNT=_KEEP_COUNT
+
+
+# 若安裝目錄不存在則離開
+if [[ ! -d $INSTALL_PATH ]];then
+  exit 0
+fi
+
 
 # 若備份檔目錄不存在則建立之
 if [[ ! -d $BACKUP_DIR ]];then

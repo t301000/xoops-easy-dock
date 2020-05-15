@@ -9,14 +9,18 @@
 #    變數區
 #######################
 # 樣板檔
-TPL_FILE="backup_xoops.tpl"
+BACKUP_TPL_FILE="backup_xoops.tpl"
+RESTORE_TPL_FILE="restore_xoops.tpl"
 # 產出之腳本檔
-SH_FILE="backup_xoops.sh"
+BACKUP_SH_FILE="backup_xoops.sh"
+RESTORE_SH_FILE="restore_xoops.sh"
 # root 之 crontab
 ROOT_CRONTAB="/var/spool/cron/crontabs/root"
 # 複製檔與暫存檔
 ROOT_CRONTAB_COPY="/tmp/root_crontab_copy"
 ROOT_CRONTAB_TMP="/tmp/root_crontab_tmp"
+# 父層目錄路徑
+PARENT_FOLDER=$(dirname ${PWD})
 
 
 #######################
@@ -35,7 +39,7 @@ function pause(){
 # 產生備份腳本檔
 generateBackupScript() {
     printf "\n\n"
-    printf "***** 產生備份腳本檔 *****"
+    printf "***** 產生 備份 與 還原 腳本檔 *****"
     printf "\n\n"
     pause ">>> 按任意鍵繼續 或 Ctrl + C 中斷...."
 
@@ -44,23 +48,29 @@ generateBackupScript() {
     if [[ "$keep_count" == "" ]]; then
         keep_count=7
     fi
-
-    cp $TPL_FILE $SH_FILE && chmod +x $SH_FILE
+    
+    cp $BACKUP_TPL_FILE $PARENT_FOLDER/$BACKUP_SH_FILE && chmod +x $PARENT_FOLDER/$BACKUP_SH_FILE
+    cp $RESTORE_TPL_FILE $PARENT_FOLDER/$RESTORE_SH_FILE && chmod +x $PARENT_FOLDER/$RESTORE_SH_FILE
 
     # 參考 https://stackoverflow.com/questions/27787536/how-to-pass-a-variable-containing-slashes-to-sed
     # 因為變數值為路徑含有 /，所以將 sed 之分隔符號換成其他符號
-    sed -i "s:_INSTALL_PATH:$PWD:g" $SH_FILE
-    sed -i "s:_MY_USERNAME:$USER:g" $SH_FILE
-    sed -i "s:_KEEP_COUNT:$keep_count:g" $SH_FILE
+    sed -i "s:_INSTALL_PATH:$PWD:g" $PARENT_FOLDER/$BACKUP_SH_FILE
+    sed -i "s:_INSTALL_PATH:$PWD:g" $PARENT_FOLDER/$RESTORE_SH_FILE
+    sed -i "s:_MY_USERNAME:$USER:g" $PARENT_FOLDER/$BACKUP_SH_FILE
+    sed -i "s:_KEEP_COUNT:$keep_count:g" $PARENT_FOLDER/$BACKUP_SH_FILE
 
     printf "\n"
     printf "備份腳本檔已產生："
     printf "\n"
-    printf "    ${PWD}/${SH_FILE}"
+    printf "    $PARENT_FOLDER/${BACKUP_SH_FILE}"
+    printf "\n\n"
+    printf "還原腳本檔已產生："
+    printf "\n"
+    printf "    $PARENT_FOLDER/${RESTORE_SH_FILE}"
     printf "\n\n"
     printf "備份檔存放目錄為："
     printf "\n"
-    printf "    $(dirname ${PWD})/xoops_backup/"
+    printf "    $PARENT_FOLDER/xoops_backup/"
     printf "\n\n"
     printf "備份檔保留 ${keep_count} 份"
     printf "\n\n"
@@ -87,10 +97,10 @@ setupCrontabForRoot(){
     # 複製原有排程
     sudo crontab -l > $ROOT_CRONTAB_COPY
     # 移除原有的備份排程
-    grep -v -E "${PWD}/${SH_FILE}|xoops備份排程" $ROOT_CRONTAB_COPY > $ROOT_CRONTAB_TMP
+    grep -v -E "$PARENT_FOLDER/${BACKUP_SH_FILE}|xoops備份排程" $ROOT_CRONTAB_COPY > $ROOT_CRONTAB_TMP
     # 加入新的備份排程
     echo "# xoops備份排程，每天 ${ans} 點備份" >> $ROOT_CRONTAB_TMP
-    echo "0 ${ans} * * * ${PWD}/${SH_FILE}" >> $ROOT_CRONTAB_TMP
+    echo "0 ${ans} * * * $PARENT_FOLDER/${BACKUP_SH_FILE}" >> $ROOT_CRONTAB_TMP
     # 由暫存檔倒入排程
     sudo crontab -u root $ROOT_CRONTAB_TMP
     # 刪除複製檔與暫存檔
@@ -117,11 +127,11 @@ showMenu() {
     printf "\n\n"
     printf "#########################################"
     printf "\n#"
-    printf "\n#    產生備份腳本檔與設定備份排程"
+    printf "\n#    產生備份、還原腳本檔與設定備份排程"
     printf "\n#"
     printf "\n#########################################"
     printf "\n\n"
-    printf "1 產生備份腳本檔"
+    printf "1 產生備份、還原腳本檔"
     printf "\n"
     printf "2 設定備份排程"
     printf "\n"
